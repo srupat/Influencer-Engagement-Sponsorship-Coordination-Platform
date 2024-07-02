@@ -11,10 +11,10 @@ roles_users = db.Table('roles_users',
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    username = db.Column(db.String, unique=False)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
+    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 
 class Role(db.Model, RoleMixin):
     __tablename__ = 'role'
@@ -62,6 +62,7 @@ class Campaign(db.Model):
     end_date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.utcnow, nullable=False)
     budget = db.Column(db.BigInteger)
     isPublic = db.Column(db.Integer, nullable=False, default=0)
+
 
 class CampaignGoals(db.Model):
     __tablename__ = 'campaign_goals'
