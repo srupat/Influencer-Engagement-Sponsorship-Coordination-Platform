@@ -10,7 +10,9 @@ from application.controller.controllers import *
 from application.data.database import db
 from flask_security import Security, SQLAlchemySessionUserDatastore
 from application.data.models import *
-
+from application.controller.apis.influencer_apis import InfluencerAPI
+from application.controller.apis.sponsor_apis import SponsorAPI
+from flask_cors import CORS, cross_origin
 
 def register_routes(app):
     app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -27,7 +29,7 @@ def create_app():
     user_datastore = SQLAlchemySessionUserDatastore(db.session, User, Role)
     security = Security(app, user_datastore)
     register_routes(app)
-
+    cors = CORS(app)
     with app.app_context():
         db.create_all()
 
@@ -35,6 +37,14 @@ def create_app():
 
 
 app, api = create_app()
+
+
+
+api.add_resource(InfluencerAPI, '/api/influencer', '/api/influencer/<int:influencer_id>')
+api.add_resource(SponsorAPI, '/api/sponsor', '/api/sponsor/<int:sponsor_id>')
+api.add_resource(AdRequestAPI, '/api/ad_request', '/api/ad_request/<int:ad_request_id>')
+api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>')
+api.add_resource(UserAPI, '/api/user', '/api/user/<int:user_id>')
 
 if __name__ == '__main__':
     app.debug = True
