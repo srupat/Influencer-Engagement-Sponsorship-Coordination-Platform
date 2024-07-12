@@ -1,7 +1,10 @@
 import os
 from flask import Flask
 from flask.scaffold import setupmethod
+
+from application.auth.auth import auth_bp
 from application.controller.admin.controllers import admin_bp
+from application.controller.apis.ad_request_apis import AdRequestAPI
 from application.controller.influencer.controllers import influencer_bp
 from application.controller.sponsor.controllers import sponsor_bp
 from application.utils.config import LocalDevelopmentConfig
@@ -13,11 +16,15 @@ from application.data.models import *
 from application.controller.apis.influencer_apis import InfluencerAPI
 from application.controller.apis.sponsor_apis import SponsorAPI
 from flask_cors import CORS, cross_origin
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, get_jwt
+from datetime import timedelta
+
 
 def register_routes(app):
     app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(influencer_bp, url_prefix='/influencer')
     app.register_blueprint(sponsor_bp, url_prefix='/sponsor')
+    app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(main)
 
 
@@ -30,6 +37,16 @@ def create_app():
     security = Security(app, user_datastore)
     register_routes(app)
     cors = CORS(app)
+    jwt = JWTManager(app)
+
+    @jwt.user_identity_loader
+    def user_identity_lookup(user):
+        return user['id']
+
+    @jwt.additional_claims_loader
+    def add_claims_to_access_token(identity):
+        return {'roles': identity['roles']}
+
     with app.app_context():
         db.create_all()
 
@@ -38,13 +55,11 @@ def create_app():
 
 app, api = create_app()
 
-
-
 api.add_resource(InfluencerAPI, '/api/influencer', '/api/influencer/<int:influencer_id>')
 api.add_resource(SponsorAPI, '/api/sponsor', '/api/sponsor/<int:sponsor_id>')
 api.add_resource(AdRequestAPI, '/api/ad_request', '/api/ad_request/<int:ad_request_id>')
-api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>')
-api.add_resource(UserAPI, '/api/user', '/api/user/<int:user_id>')
+# api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>')
+# api.add_resource(UserAPI, '/api/user', '/api/user/<int:user_id>')
 
 if __name__ == '__main__':
     app.debug = True
