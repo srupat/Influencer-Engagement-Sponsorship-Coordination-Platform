@@ -3,6 +3,7 @@ from flask_security import login_required
 from flask import Blueprint
 from flask_security import logout_user
 
+from application.auth.auth import roles_required
 
 main = Blueprint('main', __name__)
 
@@ -12,11 +13,11 @@ main = Blueprint('main', __name__)
 def home():
     return render_template("home.html")
 
-@main.route('/logout', methods=['GET'])
-def logout():
-    logout_user()
-    return redirect(url_for('main.home'))
 
+# @main.route('/logout', methods=['GET'])
+# def logout():
+#     logout_user()
+#     return redirect(url_for('main.home'))
 
 
 # @main.route('/login', methods=['GET', 'POST'])
@@ -36,19 +37,19 @@ def logout():
 #     return render_template('security/login_user.html', form=form)
 #
 #
-# @main.route('/admin')
-# @login_required
-# def admin():
-#     return "Admin Page"
-#
-#
-# @main.route('/sponsor')
-# @login_required
-# def sponsor():
-#     return "Sponsor Page"
-#
-#
-# @main.route('/influencer')
-# @login_required
-# def influencer():
-#     return "Influencer Page"
+@main.route('/admin')
+@roles_required('admin')
+def admin():
+    return "Admin Page"
+
+
+@main.route('/sponsor')
+@roles_required('sponsor')
+def sponsor():
+    return "Sponsor Page"
+
+
+@main.route('/influencer')
+@roles_required('influencer')
+def influencer():
+    return "Influencer Page"
