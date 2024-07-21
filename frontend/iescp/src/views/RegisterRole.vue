@@ -3,19 +3,19 @@
     <h1>Register As</h1>
     <div class="role-images">
       <div class="role-container">
-        <router-link to="/register" class="role-register">
+        <router-link to="/register" class="role-register" @click="setRole('Admin')">
           <RoleImage class="role-image" label="Admin" :imageUrl="adminImage" />
           <p>Admin</p>
         </router-link>
       </div>
       <div class="role-container">
-        <router-link to="/register" class="role-register">
+        <router-link to="/register" class="role-register" @click="setRole('Influencer')">
           <RoleImage class="role-image" label="Influencer" :imageUrl="influencerImage" />
           <p>Influencer</p>
         </router-link>
       </div>
       <div class="role-container">
-        <router-link to="/register" class="role-register">
+        <router-link to="/register" class="role-register" @click="setRole('Sponsor')">
           <RoleImage class="role-image" label="Sponsor" :imageUrl="sponsorImage" />
           <p>Sponsor</p>
         </router-link>
@@ -39,7 +39,13 @@ export default {
     return {
       adminImage,
       influencerImage,
-      sponsorImage
+      sponsorImage,
+      roles: []
+    }
+  },
+  methods: {
+    setRole(role) {
+      this.roles.push(role)
     }
   }
 }

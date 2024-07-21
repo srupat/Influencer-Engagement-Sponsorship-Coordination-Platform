@@ -9,4 +9,4 @@ sponsor_bp = Blueprint('sponsor', __name__)
 # @login_required
 @roles_required('sponsor')
 def admin_home():
-    return 'hello sponsor'
+    return 'hello sponsor', 201

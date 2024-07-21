@@ -55,13 +55,31 @@ export default {
   methods: {
     async onSubmit(event) {
       event.preventDefault()
-      const response = await fetch('http://localhost:8085/login')
+      // const email = document.getElementById('exampleFormControlInput1').value
+      const username = document.getElementById('exampleFormControlInput2').value
+      const password = document.getElementById('inputPassword5').value
+
+      const userData = {
+        // email,
+        username,
+        password
+      }
+
+      const response = await fetch('http://localhost:8085/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      })
+
       if (!response.ok) {
         const message = `An error has occurred: ${response.status}`
         throw new Error(message)
       }
+
       const data = await response.json()
-      return data
+      console.log(data)
     }
   }
 }

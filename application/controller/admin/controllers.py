@@ -10,4 +10,4 @@ admin_bp = Blueprint('admin', __name__)
 # @login_required
 @roles_required('admin')
 def admin_home():
-    return 'hello admin'
+    return 'hello admin', 201

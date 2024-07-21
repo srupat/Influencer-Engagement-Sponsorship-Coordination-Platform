@@ -9,4 +9,4 @@ influencer_bp = Blueprint('influencer', __name__)
 # @login_required
 @roles_required('influencer')
 def admin_home():
-    return 'hello influencer'
+    return 'hello influencer', 201
