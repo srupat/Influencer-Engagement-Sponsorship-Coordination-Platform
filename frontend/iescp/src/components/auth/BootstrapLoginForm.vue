@@ -8,11 +8,12 @@
           class="form-control"
           id="exampleFormControlInput1"
           placeholder="name@example.com"
+          style="width: 300px; height: 40px;"
         />
       </div>
       <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Username</label><br />
-        <input class="form-control" id="exampleFormControlInput1" placeholder="username" />
+        <label for="exampleFormControlInput2" class="form-label">Username</label><br />
+        <input class="form-control" id="exampleFormControlInput2" placeholder="username" style="width: 300px; height: 40px;"/>
       </div>
       <div class="mb-3">
         <label for="inputPassword5" class="form-label">Password</label><br />
@@ -21,6 +22,7 @@
           id="inputPassword5"
           class="form-control"
           aria-describedby="passwordHelpBlock"
+          style="width: 300px; height: 40px;"
         />
         <div id="passwordHelpBlock" class="form-text">
           Your password must be 8-20 characters long, contain letters and numbers, and must not
@@ -58,14 +60,16 @@ export default {
       // const email = document.getElementById('exampleFormControlInput1').value
       const username = document.getElementById('exampleFormControlInput2').value
       const password = document.getElementById('inputPassword5').value
+      const roles = this.$store.state.roles
+      this.$store.commit('clearRoles')
 
       const userData = {
-        // email,
         username,
-        password
+        password,
+        roles
       }
 
-      const response = await fetch('http://localhost:8085/login', {
+      const response = await fetch('http://localhost:8085/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

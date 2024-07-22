@@ -3,19 +3,19 @@
     <h1>Login As</h1>
     <div class="role-images">
       <div class="role-container">
-        <router-link to="/login" class="role-login">
+        <router-link to="/login" class="role-login" @click="setRole('admin')">
           <RoleImage class="role-image" label="Admin" :imageUrl="adminImage" />
           <p>Admin</p>
         </router-link>
       </div>
       <div class="role-container">
-        <router-link to="/login" class="role-login">
+        <router-link to="/login" class="role-login" @click="setRole('influencer')">
           <RoleImage class="role-image" label="Influencer" :imageUrl="influencerImage" />
           <p>Influencer</p>
         </router-link>
       </div>
       <div class="role-container">
-        <router-link to="/login" class="role-login">
+        <router-link to="/login" class="role-login" @click="setRole('sponsor')">
           <RoleImage class="role-image" label="Sponsor" :imageUrl="sponsorImage" />
           <p>Sponsor</p>
         </router-link>

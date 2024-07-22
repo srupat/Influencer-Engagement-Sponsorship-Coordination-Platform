@@ -1,5 +1,5 @@
 <script>
-import BootstrapForm from '@/components/login/BootstrapForm.vue'
+import BootstrapForm from '@/components/auth/BootstrapLoginForm.vue'
 
 export default {
   components: {
