@@ -73,7 +73,7 @@ def login():
         response = jsonify({'login': True})
         set_access_cookies(response, access_token)
         set_refresh_cookies(response, refresh_token)
-        return response, 201
+        return response, 200
     else:
         return jsonify(message="Invalid credentials."), 401
 
