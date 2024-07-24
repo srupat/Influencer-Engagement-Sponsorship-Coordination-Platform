@@ -3,29 +3,28 @@ import { createStore } from 'vuex'
 const store = createStore({
     state() {
         return {
-            roles: []
+            role: ''
         }
     },
     mutations: {
-        setRoles(state, roles) {
-            state.roles = roles
+        setRole(state, role) {
+            state.role = role
         },
-        clearRoles(state) {
-            state.roles = []
+        clearRole(state) {
+            state.role = ''
         }
     },
     actions: {
-        setRoles({ commit }, roles) {
-            commit('setRoles', roles)
-        }, 
-        clearRoles({ commit }) {
-            commit('clearRoles')
+        setRole({ commit }, role) {
+            commit('setRole', role)
+        },
+        clearRole({ commit }) {
+            commit('clearRole')
         }
     },
     getters: {
-        roles: (state) => state.roles
+        role: (state) => state.role
     }
 })
-
 
 export default store

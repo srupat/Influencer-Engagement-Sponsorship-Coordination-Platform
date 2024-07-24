@@ -22,17 +22,17 @@ const routes = [
     component: () => import('../views/auth/LoginView.vue')
   },
   {
-    path: '/admin/home',
+    path: '/admin/dashboard',
     name: 'admin-home',
     component: () => import('../views/admin/AdminDashboard.vue')
   },
   {
-    path: '/influencer/home',
+    path: '/influencer/dashboard',
     name: 'influencer-home',
     component: () => import('../views/influencer/InfluencerDashboard.vue')
   },
   {
-    path: '/sponosr/home',
+    path: '/sponosr/dashboard',
     name: 'sponsor-home',
     component: () => import('../views/sponsor/SponsorDashboard.vue')
   }

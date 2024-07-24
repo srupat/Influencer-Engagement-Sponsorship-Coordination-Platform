@@ -11,14 +11,13 @@ from application.data.models import User, Role
 
 auth_bp = Blueprint('auth', __name__)
 
-
 @auth_bp.route('/register', methods=['POST'])
 def register():
     auth_data = request.get_json()
     username = auth_data['username']
     password = auth_data['password']
     email = auth_data['email']
-    role = auth_data['role']
+    role = auth_data['role']  
 
     user = User.query.filter_by(username=username).first()
     if user is None:
@@ -29,8 +28,12 @@ def register():
         )
 
         user.active = True
-        user.roles = Role.query.filter(Role.name.in_(roles)).all()
-        user.roles = Role.query.filter_by(name=role).all()
+
+        role_from_db = Role.query.filter_by(name=role).first()
+        if not role_from_db:
+            return jsonify(message="Invalid role provided."), 400
+
+        user.roles = [role_from_db]  
 
         db.session.add(user)
         db.session.commit()
@@ -38,7 +41,7 @@ def register():
         user_identity = {
             'id': user.id,
             'username': user.username,
-            'roles': role
+            'role': role_from_db.name
         }
         access_token = create_access_token(identity=user_identity)
         refresh_token = create_refresh_token(identity=user_identity)
@@ -50,7 +53,6 @@ def register():
         return response, 201
     else:
         return jsonify(message="User already exists."), 400
-
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
@@ -66,7 +68,7 @@ def login():
         user_identity = {
             'id': user.id,
             'username': user.username,
-            'roles': [role.name for role in user.roles]
+            'role': user.roles[0].name  
         }
         access_token = create_access_token(identity=user_identity, expires_delta=timedelta(hours=1))
         refresh_token = create_refresh_token(identity=user_identity)
@@ -78,7 +80,6 @@ def login():
     else:
         return jsonify(message="Invalid credentials."), 401
 
-
 @auth_bp.route('/logout', methods=['POST'])
 @jwt_required()
 def logout():
@@ -86,22 +87,20 @@ def logout():
     unset_jwt_cookies(response)
     return response, 200
 
-
 def roles_required(allowed_roles):
     def decorator(f):
         @wraps(f)
         @jwt_required()
         def wrapper(*args, **kwargs):
             claims = get_jwt()
-            user_roles = claims.get('roles', [])
-            if not set(allowed_roles).intersection(set(user_roles)):
+            user_role = claims.get('role', '')
+            if user_role not in allowed_roles:
                 return jsonify({'message': 'Access denied!'}), 403
             return f(*args, **kwargs)
 
         return wrapper
 
     return decorator
-
 
 @auth_bp.route('/admin', methods=['GET'])
 @roles_required(['admin'])

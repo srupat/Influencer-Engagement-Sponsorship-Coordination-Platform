@@ -45,7 +45,7 @@ def create_app():
 
     @jwt.additional_claims_loader
     def add_claims_to_access_token(identity):
-        return {'roles': identity['roles']}
+        return {'roles': identity['role']}
 
     with app.app_context():
         db.create_all()

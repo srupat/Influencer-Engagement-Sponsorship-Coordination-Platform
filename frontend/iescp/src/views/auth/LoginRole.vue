@@ -3,21 +3,21 @@
     <h1>Login As</h1>
     <div class="role-images">
       <div class="role-container">
-        <router-link to="/login" class="role-login" @click="setRole('admin')">
+        <router-link to="/login" class="role-login" >
           <RoleImage class="role-image" label="Admin" :imageUrl="adminImage" />
-          <p>Admin</p>
+          <p class="green">Admin</p>
         </router-link>
       </div>
       <div class="role-container">
-        <router-link to="/login" class="role-login" @click="setRole('influencer')">
+        <router-link to="/login" class="role-login" >
           <RoleImage class="role-image" label="Influencer" :imageUrl="influencerImage" />
-          <p>Influencer</p>
+          <p class="green">Influencer</p>
         </router-link>
       </div>
       <div class="role-container">
-        <router-link to="/login" class="role-login" @click="setRole('sponsor')">
+        <router-link to="/login" class="role-login" >
           <RoleImage class="role-image" label="Sponsor" :imageUrl="sponsorImage" />
-          <p>Sponsor</p>
+          <p class="green">Sponsor</p>
         </router-link>
       </div>
     </div>

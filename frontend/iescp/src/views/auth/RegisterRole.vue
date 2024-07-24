@@ -3,22 +3,22 @@
     <h1>Register As</h1>
     <div class="role-images">
       <div class="role-container">
-        <router-link to="/register" class="role-register" @click="setRole('Admin')">
+        <div class="role-link" @click="selectRole('Admin')">
           <RoleImage class="role-image" label="Admin" :imageUrl="adminImage" />
-          <p>Admin</p>
-        </router-link>
+          <p class="green">Admin</p>
+        </div>
       </div>
       <div class="role-container">
-        <router-link to="/register" class="role-register" @click="setRole('Influencer')">
+        <div class="role-link" @click="selectRole('Influencer')">
           <RoleImage class="role-image" label="Influencer" :imageUrl="influencerImage" />
-          <p>Influencer</p>
-        </router-link>
+          <p class="green">Influencer</p>
+        </div>
       </div>
       <div class="role-container">
-        <router-link to="/register" class="role-register" @click="setRole('Sponsor')">
+        <div class="role-link" @click="selectRole('Sponsor')">
           <RoleImage class="role-image" label="Sponsor" :imageUrl="sponsorImage" />
-          <p>Sponsor</p>
-        </router-link>
+          <p class="green">Sponsor</p>
+        </div>
       </div>
     </div>
   </div>
@@ -29,6 +29,7 @@ import RoleImage from '@/components/auth/RoleImage.vue'
 import adminImage from '@/assets/admin.png'
 import influencerImage from '@/assets/influencer.png'
 import sponsorImage from '@/assets/sponsor.jpeg'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'RegisterRole',
@@ -39,16 +40,17 @@ export default {
     return {
       adminImage,
       influencerImage,
-      sponsorImage,
-      roles: []
+      sponsorImage
     }
   },
   methods: {
-    setRole(role) {
-      this.$store.commit('setRoles', role);
-    }
+    ...mapActions(['setRole']),
+    selectRole(role) {
+      this.setRole(role)
+      this.$router.push('/register')
     }
   }
+}
 </script>
 
 <style>
@@ -84,9 +86,14 @@ export default {
   align-items: center;
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
 }
 
-h1 {
+.role-link:hover {
+  background-color: hsla(160, 100%, 37%, 0.2); /* Optional: change to the hover effect you want */
+}
+
+p {
   font-size: 24px;
   margin-bottom: 20px;
 }

@@ -61,13 +61,13 @@ export default {
       const username = document.getElementById('exampleFormControlInput2').value
       const password = document.getElementById('inputPassword5').value
       
-      const roles = this.$store.state.roles
+      // const roles = this.$store.state.roles
       this.$store.commit('clearRoles')
-      console.log(roles);
+      // console.log(roles);
       const userData = {
         username,
         password,
-        roles
+        // roles
       }
 
       const response = await fetch('http://localhost:8085/auth/login', {
@@ -84,15 +84,10 @@ export default {
       }
       const data = await response.json()
       console.log(data)
-      console.log(roles);
+      // console.log(roles);
 
-      if (roles.includes('admin')) {
-        this.$router.push('/admin/home')
-      } else if (roles.includes('influencer')) {
-        this.$router.push('/influencer/home')
-      } else if (roles.includes('sponsor')) {
-        this.$router.push('/sponsor/home')
-      }
+
+      
     }
   }
 }
