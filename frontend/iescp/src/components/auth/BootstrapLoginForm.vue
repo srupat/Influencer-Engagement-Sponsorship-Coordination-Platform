@@ -60,9 +60,10 @@ export default {
       // const email = document.getElementById('exampleFormControlInput1').value
       const username = document.getElementById('exampleFormControlInput2').value
       const password = document.getElementById('inputPassword5').value
+      
       const roles = this.$store.state.roles
       this.$store.commit('clearRoles')
-
+      console.log(roles);
       const userData = {
         username,
         password,
@@ -81,9 +82,17 @@ export default {
         const message = `An error has occurred: ${response.status}`
         throw new Error(message)
       }
-
       const data = await response.json()
       console.log(data)
+      console.log(roles);
+
+      if (roles.includes('admin')) {
+        this.$router.push('/admin/home')
+      } else if (roles.includes('influencer')) {
+        this.$router.push('/influencer/home')
+      } else if (roles.includes('sponsor')) {
+        this.$router.push('/sponsor/home')
+      }
     }
   }
 }

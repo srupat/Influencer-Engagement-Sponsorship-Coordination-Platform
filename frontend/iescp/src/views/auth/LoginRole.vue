@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import RoleImage from '@/components/login/RoleImage.vue'
+import RoleImage from '@/components/auth/RoleImage.vue'
 import adminImage from '@/assets/admin.png'
 import influencerImage from '@/assets/influencer.png'
 import sponsorImage from '@/assets/sponsor.jpeg'

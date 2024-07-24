@@ -61,7 +61,8 @@
         const username = document.getElementById('exampleFormControlInput2').value
         const password = document.getElementById('inputPassword5').value
         const roles = this.$store.state.roles
-        this.$store.commit('clearRoles')
+        console.log(roles);
+        // this.$store.commit('clearRoles')
   
         const userData = {
             email,
@@ -82,6 +83,7 @@
           const message = `An error has occurred: ${response.status}`
           throw new Error(message)
         }
+        this.$router.push('/login');
   
         const data = await response.json()
         console.log(data)

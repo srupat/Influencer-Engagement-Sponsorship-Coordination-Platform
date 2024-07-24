@@ -18,7 +18,7 @@ def register():
     username = auth_data['username']
     password = auth_data['password']
     email = auth_data['email']
-    roles = auth_data['roles']
+    role = auth_data['role']
 
     user = User.query.filter_by(username=username).first()
     if user is None:
@@ -30,6 +30,7 @@ def register():
 
         user.active = True
         user.roles = Role.query.filter(Role.name.in_(roles)).all()
+        user.roles = Role.query.filter_by(name=role).all()
 
         db.session.add(user)
         db.session.commit()
@@ -37,7 +38,7 @@ def register():
         user_identity = {
             'id': user.id,
             'username': user.username,
-            'roles': [role.name for role in user.roles]
+            'roles': role
         }
         access_token = create_access_token(identity=user_identity)
         refresh_token = create_refresh_token(identity=user_identity)
