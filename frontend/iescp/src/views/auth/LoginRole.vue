@@ -1,4 +1,8 @@
 <template>
+  <nav>
+      <router-link to="/">Register</router-link>
+      <router-link to="/login/role">Login</router-link>
+    </nav>
   <div class="register-role">
     <h1>Login As</h1>
     <div class="role-images">
