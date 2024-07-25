@@ -1,3 +1,4 @@
 *.pyc
 application/utils/config.py
 env
+/application/data/__pycache__

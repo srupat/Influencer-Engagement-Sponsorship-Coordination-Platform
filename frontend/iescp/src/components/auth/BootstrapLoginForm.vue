@@ -83,6 +83,14 @@ export default {
         throw new Error(message)
       }
       const data = await response.json()
+
+      if (data.role === "Admin") {
+        this.$router.push('/admin/dashboard')
+      } else if (data.role === "Influencer") {
+        this.$router.push('/influencer/dashboard')
+      } else if (data.role === "Sponsor") {
+        this.$router.push('/sponsor/dashboard')
+      }
       console.log(data)
       // console.log(roles);
 

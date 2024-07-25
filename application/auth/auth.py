@@ -73,7 +73,7 @@ def login():
         access_token = create_access_token(identity=user_identity, expires_delta=timedelta(hours=1))
         refresh_token = create_refresh_token(identity=user_identity)
 
-        response = jsonify({'login': True})
+        response = jsonify({'role' : user.roles[0].name})
         set_access_cookies(response, access_token)
         set_refresh_cookies(response, refresh_token)
         return response, 200
