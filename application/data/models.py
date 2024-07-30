@@ -62,7 +62,9 @@ class Campaign(db.Model):
     start_date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.utcnow, nullable=False)
     end_date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.utcnow, nullable=False)
     budget = db.Column(db.BigInteger)
-    isPublic = db.Column(db.Integer, nullable=False, default=0)
+    is_public = db.Column(db.Integer, nullable=False, default=0)
+    is_flagged = db.Column(db.Integer, nullable=False, default=0)
+    
 
 
 class CampaignGoals(db.Model):

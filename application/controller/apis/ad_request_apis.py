@@ -14,6 +14,11 @@ update_ad_request_parser.add_argument('description')
 update_ad_request_parser.add_argument('requirements')
 update_ad_request_parser.add_argument('payment_amount')
 
+create_ad_request_parser = reqparse.RequestParser()
+create_ad_request_parser.add_argument('description')
+create_ad_request_parser.add_argument('requirements')
+create_ad_request_parser.add_argument('payment_amount')
+
 class AdRequestAPI(Resource):
     @marshal_with(output_fields)
     def get(self, ad_request_id):

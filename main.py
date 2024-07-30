@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask.scaffold import setupmethod
-
+from flask_migrate import Migrate
 from application.auth.auth import auth_bp
 from application.controller.admin.controllers import admin_bp
 from application.controller.apis.ad_request_apis import AdRequestAPI
@@ -15,6 +15,7 @@ from flask_security import Security, SQLAlchemySessionUserDatastore
 from application.data.models import *
 from application.controller.apis.influencer_apis import InfluencerAPI
 from application.controller.apis.sponsor_apis import SponsorAPI
+from application.controller.apis.campaign_apis import CampaignAPI
 from flask_cors import CORS, cross_origin
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, get_jwt
 from datetime import timedelta
@@ -38,6 +39,7 @@ def create_app():
     register_routes(app)
     cors = CORS(app)
     jwt = JWTManager(app)
+    migrate = Migrate(app, db)
 
     @jwt.user_identity_loader
     def user_identity_lookup(user):
@@ -58,8 +60,8 @@ app, api = create_app()
 api.add_resource(InfluencerAPI, '/api/influencer', '/api/influencer/<int:influencer_id>')
 api.add_resource(SponsorAPI, '/api/sponsor', '/api/sponsor/<int:sponsor_id>')
 api.add_resource(AdRequestAPI, '/api/ad_request', '/api/ad_request/<int:ad_request_id>')
-# api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>')
-# api.add_resource(UserAPI, '/api/user', '/api/user/<int:user_id>')
+api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>')
+
 
 if __name__ == '__main__':
     app.debug = True

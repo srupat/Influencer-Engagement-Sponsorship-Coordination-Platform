@@ -92,10 +92,7 @@ export default {
         this.$router.push('/sponsor/dashboard')
       }
       console.log(data)
-      // console.log(roles);
-
-
-      
+      // console.log(roles);      
     }
   }
 }
