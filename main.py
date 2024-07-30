@@ -16,6 +16,7 @@ from application.data.models import *
 from application.controller.apis.influencer_apis import InfluencerAPI
 from application.controller.apis.sponsor_apis import SponsorAPI
 from application.controller.apis.campaign_apis import CampaignAPI
+from application.controller.apis.user_apis import UserAPI
 from flask_cors import CORS, cross_origin
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, get_jwt
 from datetime import timedelta
@@ -61,6 +62,7 @@ api.add_resource(InfluencerAPI, '/api/influencer', '/api/influencer/<int:influen
 api.add_resource(SponsorAPI, '/api/sponsor', '/api/sponsor/<int:sponsor_id>')
 api.add_resource(AdRequestAPI, '/api/ad_request', '/api/ad_request/<int:ad_request_id>')
 api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>')
+api.add_resource(UserAPI, '/api/user', '/api/user/<int:user_id>')
 
 
 if __name__ == '__main__':

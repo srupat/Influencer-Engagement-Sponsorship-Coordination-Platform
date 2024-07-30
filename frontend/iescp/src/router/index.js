@@ -32,9 +32,24 @@ const routes = [
     component: () => import('../views/influencer/InfluencerDashboard.vue')
   },
   {
-    path: '/sponosr/dashboard',
+    path: '/sponsor/dashboard',
     name: 'sponsor-home',
     component: () => import('../views/sponsor/SponsorDashboard.vue')
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import('../views/common/AboutComponent.vue')
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: () => import('../views/common/ContactComponent.vue')
+  },
+  {
+    path: '/users',
+    name: 'users',
+    component: () => import('../views/admin/UserList.vue')
   }
 ]
 

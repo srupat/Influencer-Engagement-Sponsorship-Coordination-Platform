@@ -8,7 +8,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/admin/users">Users</router-link>
+                        <router-link class="nav-link" to="/admin/dashboard">Home</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/users">Users</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link class="nav-link" to="/about">About</router-link>
@@ -17,7 +20,7 @@
                         <router-link class="nav-link" to="/contact">Contact</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/logout">Logout</router-link>
+                        <a class="nav-link" href="#" @click.prevent="logout">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -27,7 +30,27 @@
 
 <script>
 export default {
-    name: 'AdminNavbar'
+    name: 'AdminNavbar',
+    methods: {
+        async logout() {
+            try {
+                const response = await fetch('http://localhost:8085/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    this.$router.push('/login');
+                } else {
+                    console.error('Logout failed:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Logout failed:', error);
+            }
+        }
+    }
 };
 </script>
 
