@@ -65,9 +65,3 @@ class Campaign(db.Model):
     is_flagged = db.Column(db.Integer, nullable=False, default=0)
     
 
-
-class CampaignGoals(db.Model):
-    __tablename__ = 'campaign_goals'
-    id = db.Column(db.Integer(), primary_key=True)
-    goal = db.Column(db.String(255), nullable=False)
-    campaign_id = db.Column(db.Integer, db.ForeignKey("campaign.id"))

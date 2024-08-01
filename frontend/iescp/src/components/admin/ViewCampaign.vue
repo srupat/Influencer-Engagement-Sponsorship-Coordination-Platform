@@ -5,6 +5,7 @@
             <div class="horizontal-component">
                 <div class="message">{{ campaign.name }}</div>
                 <button class="btn btn-success" @click="toggleViewCampaign(campaign.id)">View</button>
+                <button class="btn btn-warning" @click="flagCampaign(campaign.id)">Flag</button>
             </div>
             <div v-if="selectedCampaign === campaign.id" class="campaign-details">
                 <p><strong>Start Date:</strong> {{ campaign.start_date }}</p>
@@ -81,12 +82,12 @@ export default {
         },
         toggleViewCampaign(id) {
             this.selectedCampaign = this.selectedCampaign === id ? null : id;
-        }
-    },
-    props: {
-        message: {
-            type: String,
-            required: true
+        },
+        flagCampaign(id) {
+            const campaign = this.campaigns.find(campaign => campaign.id === id);
+            campaign.isFlagged = true;
+            this.flaggedCampaigns.push(campaign);
+            this.campaigns = this.campaigns.filter(campaign => campaign.id !== id);
         }
     }
 }
@@ -123,9 +124,11 @@ export default {
     font-size: smaller;
 }
 
-.btn-success, .btn-danger {
+.btn-success, .btn-danger, .btn-warning {
     margin-left: 10px;
 }
+
+
 
 h4 {
     margin-top: 30px;

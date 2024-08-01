@@ -4,12 +4,12 @@
         <div class="container">
             <div class="row mt-5">
                 <div class="col-12 text-center">
-                    <h2 class="welcome">{{ message }}</h2>
+                    <h2 class="welcome">Hello, Admin!</h2>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-12">
-                    <ViewCampaign :message="msg" />
+                    <ViewCampaign />
                 </div>
             </div>
         </div>
@@ -21,12 +21,6 @@ import AdminNavbar from '@/components/admin/AdminNavbar.vue';
 import ViewCampaign from '@/components/admin/ViewCampaign.vue';
 
 export default {
-    data() {
-        return {
-            message: 'Welcome, admin!',
-            msg: 'Campaign 1'
-        };
-    },
     components: {
         AdminNavbar,
         ViewCampaign
