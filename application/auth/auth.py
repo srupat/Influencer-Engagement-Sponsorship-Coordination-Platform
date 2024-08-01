@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import (
     create_access_token, create_refresh_token, jwt_required, get_jwt_identity,
     get_jwt, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
@@ -73,16 +73,24 @@ def login():
         access_token = create_access_token(identity=user_identity, expires_delta=timedelta(hours=1))
         refresh_token = create_refresh_token(identity=user_identity)
 
-        response = jsonify({'role' : user.roles[0].name})
+        response = jsonify({'role': user.roles[0].name})
         set_access_cookies(response, access_token)
         set_refresh_cookies(response, refresh_token)
+        
+        # Debug statements
+        print("Access token set:", access_token)
+        print("Refresh token set:", refresh_token)
+        
         return response, 200
     else:
         return jsonify(message="Invalid credentials."), 401
 
-@auth_bp.route('/logout', methods=['POST'])
+@auth_bp.route('/logout', methods=['OPTIONS', 'POST'])
 @jwt_required()
 def logout():
+    if request.method == 'OPTIONS':
+        return jsonify({'message': 'CORS preflight request'}), 200
+
     response = jsonify(message="Logout successful.")
     unset_jwt_cookies(response)
     return response, 200

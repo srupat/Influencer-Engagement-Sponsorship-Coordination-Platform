@@ -38,7 +38,7 @@ def create_app():
     user_datastore = SQLAlchemySessionUserDatastore(db.session, User, Role)
     security = Security(app, user_datastore)
     register_routes(app)
-    cors = CORS(app)
+    cors = CORS(app, supports_credentials=True)
     jwt = JWTManager(app)
     migrate = Migrate(app, db)
 

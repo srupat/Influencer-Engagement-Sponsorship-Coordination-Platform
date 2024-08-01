@@ -66,7 +66,8 @@ export default {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          credentials: 'include' 
         })
 
         if (response.ok) {

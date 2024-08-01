@@ -2,3 +2,4 @@
 application/utils/config.py
 env
 /application/data/__pycache__
+application/utils/__pycache__/config.cpython-312.pyc

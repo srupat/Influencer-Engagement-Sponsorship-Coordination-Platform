@@ -16,27 +16,38 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <router-link class="nav-link" to="/admin/dashboard"><i class="bi bi-house"></i></router-link>
+            <router-link class="nav-link" to="/admin/dashboard"
+              ><i class="bi bi-house"></i
+            ></router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/users"><i class="bi bi-person-circle"></i></router-link>
+            <router-link class="nav-link" to="/users"
+              ><i class="bi bi-person-circle"></i
+            ></router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/about"><i class="bi bi-question-circle"></i></router-link>
+            <router-link class="nav-link" to="/about"
+              ><i class="bi bi-question-circle"></i
+            ></router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/contact"><i class="bi bi-telephone"></i></router-link>
+            <router-link class="nav-link" to="/contact"
+              ><i class="bi bi-telephone"></i
+            ></router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/admin/stats"><i class="bi bi-bar-chart-line"></i></router-link>
+            <router-link class="nav-link" to="/admin/stats"
+              ><i class="bi bi-bar-chart-line"></i
+            ></router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/logout" @click.prevent="logout"><i class="bi bi-box-arrow-right"></i></a>
+            <a class="nav-link" href="/logout" @click.prevent="logout"
+              ><i class="bi bi-box-arrow-right"></i
+            ></a>
           </li>
         </ul>
       </div>
     </div>
-    
   </nav>
 </template>
 
@@ -50,7 +61,8 @@ export default {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          credentials: 'include' 
         })
 
         if (response.ok) {
