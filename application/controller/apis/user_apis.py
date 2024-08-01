@@ -17,7 +17,13 @@ class UserAPI(Resource):
             users = User.query.all()
             for user in users:
                 user.role = user.roles[0].name
-            return users
+            if users:
+                return users
+            else:
+                raise NotFoundError(status_code=404)
         user = User.query.get(user_id)
         user.role = user.roles[0].name
-        return user
+        if user:
+            return user
+        else:
+            raise NotFoundError(status_code=404)

@@ -50,7 +50,7 @@ const routes = [
     path: '/users',
     name: 'users',
     component: () => import('../views/admin/UserList.vue')
-  }
+  },
 ]
 
 const router = createRouter({
