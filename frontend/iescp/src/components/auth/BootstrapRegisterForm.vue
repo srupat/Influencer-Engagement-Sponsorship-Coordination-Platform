@@ -50,12 +50,13 @@ export default {
       const email = document.getElementById('exampleFormControlInput1').value
       const username = document.getElementById('exampleFormControlInput2').value
       const password = document.getElementById('inputPassword5').value
+      const role = this.role
 
       const userData = {
         email,
         username,
         password,
-        role: this.role
+        role
       }
 
       try {
@@ -72,6 +73,7 @@ export default {
         }
 
         this.$router.push('/login')
+        console.log(this.role);
         this.clearRole()
 
         const data = await response.json()

@@ -51,6 +51,7 @@ export default {
     ...mapActions(['setRole']),
     selectRole(role) {
       this.setRole(role)
+      console.log(this.$store.state.role);
       this.$router.push('/register')
     }
   }

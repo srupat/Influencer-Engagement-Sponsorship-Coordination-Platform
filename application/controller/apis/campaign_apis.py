@@ -21,13 +21,20 @@ campaign_parser.add_argument('budget')
 
 class CampaignAPI(Resource):
     @marshal_with(output_fields)
-    def get(self, campaign_id=None):
-        if campaign_id is None:
-            campaigns = Campaign.query.all()
+    def get(self, campaign_id=None, sponsor_id=None, influencer_id=None):      
+        if campaign_id:
+            campaign = Campaign.query.get(campaign_id)
+            return campaign
+        if sponsor_id:
+            campaigns = Campaign.query.filter(Campaign.sponsor_id == sponsor_id).all()
             return campaigns
-        campaign = Campaign.query.get(campaign_id)
-        return campaign
-
+        if influencer_id:
+            campaigns = Campaign.query.filter(Campaign.influencer_id == influencer_id).all()
+            return campaigns
+        campaigns = Campaign.query.all()
+        return campaigns
+        
+    
     @marshal_with(output_fields)
     def put(self, campaign_id):
         campaign = Campaign.query.get(campaign_id)

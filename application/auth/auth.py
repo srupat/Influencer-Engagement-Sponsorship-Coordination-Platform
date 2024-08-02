@@ -7,7 +7,7 @@ from flask_jwt_extended import (
 from datetime import timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from application.data.database import db
-from application.data.models import User, Role
+from application.data.models import *
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -18,6 +18,16 @@ def register():
     password = auth_data['password']
     email = auth_data['email']
     role = auth_data['role']  
+    
+    if(role == 'Sponsor'):
+        company_desc = auth_data['company_desc']
+        industry = auth_data['industry']
+        budget = auth_data['budget']
+        
+    if(role == "Influencer"):
+        category = auth_data['category']
+        niche = auth_data['niche']
+        followers = auth_data['followers']
 
     user = User.query.filter_by(username=username).first()
     if user is None:
@@ -34,6 +44,16 @@ def register():
             return jsonify(message="Invalid role provided."), 400
 
         user.roles = [role_from_db]  
+        
+        if(role == 'Sponsor'):
+            sponsor = Sponsor(name=username, company_desc=company_desc, industry=industry, budget=budget)
+            db.session.add(sponsor)
+            db.session.commit()
+            
+        if(role == 'Influencer'):
+            influencer = Influencer(name=username, category=category, niche=niche, followers=followers)
+            db.session.add(influencer)
+            db.session.commit()
 
         db.session.add(user)
         db.session.commit()
