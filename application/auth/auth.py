@@ -44,16 +44,6 @@ def register():
             return jsonify(message="Invalid role provided."), 400
 
         user.roles = [role_from_db]  
-        
-        if(role == 'Sponsor'):
-            sponsor = Sponsor(name=username, company_desc=company_desc, industry=industry, budget=budget)
-            db.session.add(sponsor)
-            db.session.commit()
-            
-        if(role == 'Influencer'):
-            influencer = Influencer(name=username, category=category, niche=niche, followers=followers)
-            db.session.add(influencer)
-            db.session.commit()
 
         db.session.add(user)
         db.session.commit()
@@ -69,6 +59,16 @@ def register():
         response = jsonify(message="User registered successfully.")
         set_access_cookies(response, access_token)
         set_refresh_cookies(response, refresh_token)
+        
+        if(role == 'Sponsor'):
+            sponsor = Sponsor(name=username, company_desc=company_desc, industry=industry, budget=budget)
+            db.session.add(sponsor)
+            db.session.commit()
+            
+        if(role == 'Influencer'):
+            influencer = Influencer(name=username, category=category, niche=niche, followers=followers)
+            db.session.add(influencer)
+            db.session.commit()
 
         return response, 201
     else:

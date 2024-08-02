@@ -37,7 +37,7 @@
           <label for="exampleFormControlInput3" class="form-label">Company Description</label><br />
           <input
             class="form-control"
-            id="exampleFormControlInput2"
+            id="exampleFormControlInput3"
             placeholder="Describe your company in a few words"
             style="width: 300px; height: 40px"
           />
@@ -46,7 +46,7 @@
           <label for="exampleFormControlInput4" class="form-label">Industry</label><br />
           <input
             class="form-control"
-            id="exampleFormControlInput2"
+            id="exampleFormControlInput4"
             placeholder="Industry"
             style="width: 300px; height: 40px"
           />
@@ -55,7 +55,7 @@
           <label for="exampleFormControlInput5" class="form-label">Budget</label><br />
           <input
             class="form-control"
-            id="exampleFormControlInput2"
+            id="exampleFormControlInput5"
             placeholder="Budget"
             style="width: 300px; height: 40px"
           />
@@ -77,6 +77,7 @@ export default {
   },
   methods: {
     ...mapActions(['clearRole']),
+    ...mapActions(['setUsername']),
     async onSubmit(event) {
       event.preventDefault()
       const email = document.getElementById('exampleFormControlInput1').value
@@ -86,7 +87,10 @@ export default {
       const industry = document.getElementById('exampleFormControlInput4').value
       const budget = document.getElementById('exampleFormControlInput5').value
       const role = this.role
-
+      console.log(this.$store.state.role);
+      this.setUsername(username)
+      console.log(this.$store.state.username)
+      
       const userData = {
         email,
         username,
@@ -96,6 +100,8 @@ export default {
         industry,
         budget
       }
+      
+      console.log(userData);
 
       try {
         const response = await fetch('http://localhost:8085/auth/register', {

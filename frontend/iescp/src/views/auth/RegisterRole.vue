@@ -54,7 +54,7 @@ export default {
     ...mapActions(['setRole']),
     selectRole(role) {
       this.setRole(role)
-      // console.log(this.$store.state.role);
+      console.log(this.$store.state.role);
       if (this.role === 'Admin') {
         this.$router.push('/admin/register')
       } else if (this.role === 'Sponsor') {

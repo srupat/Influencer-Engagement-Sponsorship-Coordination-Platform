@@ -9,7 +9,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col-12">
-                    <ViewCampaign />
+                    <ViewSponsorCampaign />
                 </div>
             </div>
         </div>
@@ -18,12 +18,12 @@
 
 <script>
 import SponsorNavbar from '@/components/sponsor/SponsorNavbar.vue';
-import ViewCampaign from '@/components/admin/ViewCampaign.vue';
+import ViewSponsorCampaign from '@/components/sponsor/ViewSponsorCampaign.vue';
 
 export default {
     components: {
         SponsorNavbar,
-        ViewCampaign
+        ViewSponsorCampaign
     }
 };
 </script>

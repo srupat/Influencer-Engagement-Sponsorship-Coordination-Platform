@@ -38,7 +38,7 @@
         <label for="exampleFormControlInput3" class="form-label">Category</label><br />
         <input
           class="form-control"
-          id="exampleFormControlInput2"
+          id="exampleFormControlInput3"
           placeholder="username"
           style="width: 300px; height: 40px"
         />
@@ -47,7 +47,7 @@
         <label for="exampleFormControlInput4" class="form-label">Niche</label><br />
         <input
           class="form-control"
-          id="exampleFormControlInput2"
+          id="exampleFormControlInput4"
           placeholder="username"
           style="width: 300px; height: 40px"
         />
@@ -56,7 +56,7 @@
         <label for="exampleFormControlInput5" class="form-label">Followers</label><br />
         <input
           class="form-control"
-          id="exampleFormControlInput2"
+          id="exampleFormControlInput5"
           placeholder="username"
           style="width: 300px; height: 40px"
         />
