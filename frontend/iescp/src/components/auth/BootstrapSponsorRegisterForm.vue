@@ -8,12 +8,17 @@
           class="form-control"
           id="exampleFormControlInput1"
           placeholder="name@example.com"
-          style="width: 300px; height: 40px;"
+          style="width: 300px; height: 40px"
         />
       </div>
       <div class="mb-3">
         <label for="exampleFormControlInput2" class="form-label">Username</label><br />
-        <input class="form-control" id="exampleFormControlInput2" placeholder="username" style="width: 300px; height: 40px;"/>
+        <input
+          class="form-control"
+          id="exampleFormControlInput2"
+          placeholder="username"
+          style="width: 300px; height: 40px"
+        />
       </div>
       <div class="mb-3">
         <label for="inputPassword5" class="form-label">Password</label><br />
@@ -22,11 +27,38 @@
           id="inputPassword5"
           class="form-control"
           aria-describedby="passwordHelpBlock"
-          style="width: 300px; height: 40px; "
+          style="width: 300px; height: 40px"
         />
         <div id="passwordHelpBlock" class="form-text">
           Your password must be 8-20 characters long, contain letters and numbers, and must not
           contain spaces, special characters, or emoji.
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput3" class="form-label">Company Description</label><br />
+          <input
+            class="form-control"
+            id="exampleFormControlInput2"
+            placeholder="Describe your company in a few words"
+            style="width: 300px; height: 40px"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput4" class="form-label">Industry</label><br />
+          <input
+            class="form-control"
+            id="exampleFormControlInput2"
+            placeholder="Industry"
+            style="width: 300px; height: 40px"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput5" class="form-label">Budget</label><br />
+          <input
+            class="form-control"
+            id="exampleFormControlInput2"
+            placeholder="Budget"
+            style="width: 300px; height: 40px"
+          />
         </div>
       </div>
       <div class="col-auto">
@@ -50,13 +82,19 @@ export default {
       const email = document.getElementById('exampleFormControlInput1').value
       const username = document.getElementById('exampleFormControlInput2').value
       const password = document.getElementById('inputPassword5').value
+      const company_desc = document.getElementById('exampleFormControlInput3').value
+      const industry = document.getElementById('exampleFormControlInput4').value
+      const budget = document.getElementById('exampleFormControlInput5').value
       const role = this.role
 
       const userData = {
         email,
         username,
         password,
-        role
+        role,
+        company_desc,
+        industry,
+        budget
       }
 
       try {
@@ -73,7 +111,7 @@ export default {
         }
 
         this.$router.push('/login')
-        console.log(this.role);
+        console.log(this.role)
         this.clearRole()
 
         const data = await response.json()

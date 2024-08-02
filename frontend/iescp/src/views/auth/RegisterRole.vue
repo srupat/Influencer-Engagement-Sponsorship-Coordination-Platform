@@ -1,8 +1,8 @@
 <template>
   <nav>
-      <router-link to="/">Register</router-link>
-      <router-link to="/login/role">Login</router-link>
-    </nav>
+    <router-link to="/">Register</router-link>
+    <router-link to="/login/role">Login</router-link>
+  </nav>
   <div class="register-role">
     <h1>Register As</h1>
     <div class="role-images">
@@ -33,12 +33,15 @@ import RoleImage from '@/components/auth/RoleImage.vue'
 import adminImage from '@/assets/admin.png'
 import influencerImage from '@/assets/influencer.png'
 import sponsorImage from '@/assets/sponsor.jpeg'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'RegisterRole',
   components: {
     RoleImage
+  },
+  computed: {
+    ...mapGetters(['role'])
   },
   data() {
     return {
@@ -51,8 +54,14 @@ export default {
     ...mapActions(['setRole']),
     selectRole(role) {
       this.setRole(role)
-      console.log(this.$store.state.role);
-      this.$router.push('/register')
+      // console.log(this.$store.state.role);
+      if (this.role === 'Admin') {
+        this.$router.push('/admin/register')
+      } else if (this.role === 'Sponsor') {
+        this.$router.push('/sponsor/register')
+      } else {
+        this.$router.push('/influencer/register')
+      }
     }
   }
 }

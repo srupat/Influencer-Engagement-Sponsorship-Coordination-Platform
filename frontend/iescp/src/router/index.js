@@ -7,9 +7,19 @@ const routes = [
     component: () => import('../views/auth/RegisterRole.vue')
   },
   {
-    path: '/register',
-    name: 'register',
-    component: () => import('../views/auth/RegisterView.vue')
+    path: '/admin/register',
+    name: 'admin-register',
+    component: () => import('../views/auth/RegisterAdminView.vue')
+  },
+  {
+    path: '/sponsor/register',
+    name: 'sponsor-register',
+    component: () => import('../views/auth/RegisterSponsorView.vue')
+  },
+  {
+    path: '/influencer/register',
+    name: 'influencer-register',
+    component: () => import('../views/auth/RegisterInfluencerView.vue')
   },
   {
     path: '/login/role',
