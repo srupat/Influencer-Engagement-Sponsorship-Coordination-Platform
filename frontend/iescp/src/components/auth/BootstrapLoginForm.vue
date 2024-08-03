@@ -48,6 +48,8 @@
 </style>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
@@ -55,14 +57,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['clearRole']),
     async onSubmit(event) {
       event.preventDefault()
       // const email = document.getElementById('exampleFormControlInput1').value
       const username = document.getElementById('exampleFormControlInput2').value
       const password = document.getElementById('inputPassword5').value
       
-      // const roles = this.$store.state.roles
-      this.$store.commit('clearRoles')
+      this.clearRole()
       // console.log(roles);
       const userData = {
         username,

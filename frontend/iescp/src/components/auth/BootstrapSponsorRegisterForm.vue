@@ -72,12 +72,22 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  data() {
+    return {
+      user: '',
+    }
+  },
   computed: {
-    ...mapGetters(['role'])
+    ...mapGetters(['role']),
+    ...mapGetters(['sponsorID'])
+  },
+  mounted() {
+    this.clearSponsorID();
   },
   methods: {
     ...mapActions(['clearRole']),
-    ...mapActions(['setUsername']),
+    ...mapActions(['setSponsorID']),
+    ...mapActions(['clearSponsorID']),
     async onSubmit(event) {
       event.preventDefault()
       const email = document.getElementById('exampleFormControlInput1').value
@@ -86,11 +96,11 @@ export default {
       const company_desc = document.getElementById('exampleFormControlInput3').value
       const industry = document.getElementById('exampleFormControlInput4').value
       const budget = document.getElementById('exampleFormControlInput5').value
-      const role = this.role
-      console.log(this.$store.state.role);
-      this.setUsername(username)
-      console.log(this.$store.state.username)
       
+      const role = this.role
+
+      this.user = username
+           
       const userData = {
         email,
         username,
@@ -100,8 +110,6 @@ export default {
         industry,
         budget
       }
-      
-      console.log(userData);
 
       try {
         const response = await fetch('http://localhost:8085/auth/register', {
@@ -116,14 +124,26 @@ export default {
           throw new Error(`An error has occurred: ${response.status}`)
         }
 
-        this.$router.push('/login')
-        console.log(this.role)
-        this.clearRole()
-
         const data = await response.json()
         console.log(data)
+
+        this.$router.push('/login')
+        this.clearRole()
+        await this.fetchAndSetSponsorID()
+        console.log(this.$store.state.sponsorID)
+
       } catch (error) {
         console.error(error)
+      }
+    },
+    async fetchAndSetSponsorID() {
+      try {
+        const response = await fetch(`http://localhost:8085/sponsor/${this.user}`);
+        const data = await response.json();
+        console.log(data);
+        this.setSponsorID(data.id);
+      } catch (error) {
+        console.error(error);
       }
     }
   }

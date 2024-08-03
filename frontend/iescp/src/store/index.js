@@ -1,11 +1,11 @@
 import { createStore } from 'vuex'
+import localStoragePlugin from './plugins/localStorage';
 
 const store = createStore({
     state() {
         return {
             role: '',
-            username : '',
-            sponsorID : null
+            sponsorID: localStorage.getItem('sponsorID') || null
         }
     },
     mutations: {
@@ -15,15 +15,12 @@ const store = createStore({
         clearRole(state) {
             state.role = ''
         },
-        setUsername(state, username) {
-            state.username = username
-        },
-        clearUsername(state) {        
-            state.username = ''
-        },
         setSponsorID(state, sponsorID) {
             state.sponsorID = sponsorID
         },
+        clearSponsorID(state) {
+            state.sponsorID = null
+        }
     },
     actions: {
         setRole({ commit }, role) {
@@ -32,21 +29,18 @@ const store = createStore({
         clearRole({ commit }) {
             commit('clearRole')
         },
-        setUsername({ commit }, username) {
-            commit('setUsername', username)
-        },
-        clearUsername({ commit }) {
-            commit('clearUsername')
-        },
         setSponsorID({ commit }, sponsorID) {
             commit('setSponsorID', sponsorID)
         },
+        clearSponsorID({ commit }) {
+            commit('clearSponsorID')
+        }
     },
     getters: {
         role: (state) => state.role,
-        username: (state) => state.username,
         sponsorID: (state) => state.sponsorID
-    }
+    },
+    plugins: [localStoragePlugin],
 })
 
 export default store

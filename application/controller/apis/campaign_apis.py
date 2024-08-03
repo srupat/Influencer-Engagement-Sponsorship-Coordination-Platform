@@ -24,14 +24,18 @@ class CampaignAPI(Resource):
     def get(self, campaign_id=None, sponsor_id=None, influencer_id=None):      
         if campaign_id:
             campaign = Campaign.query.get(campaign_id)
+            print("campaign id")
             return campaign
         if sponsor_id:
             campaigns = Campaign.query.filter(Campaign.sponsor_id == sponsor_id).all()
+            print("sponsor id")
             return campaigns
         if influencer_id:
             campaigns = Campaign.query.filter(Campaign.influencer_id == influencer_id).all()
+            print("influencer id")
             return campaigns
         campaigns = Campaign.query.all()
+        print("all")
         return campaigns
         
     
