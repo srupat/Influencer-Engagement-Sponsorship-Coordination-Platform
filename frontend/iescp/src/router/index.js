@@ -62,13 +62,13 @@ const routes = [
     component: () => import('../views/admin/UserList.vue')
   },
   {
-    path: '/campaign',
-    name: 'campaign',
-    component: () => import('../views/sponsor/CampaignManagement.vue')
+    path: '/add/campaign',
+    name: 'add-campaign',
+    component: () => import('../views/sponsor/AddCampaign.vue')
   },
   {
     path: '/edit/campaign',
-    name: 'campaign',
+    name: 'edit-campaign',
     component: () => import('../views/sponsor/EditCampaign.vue')
   },
 ]

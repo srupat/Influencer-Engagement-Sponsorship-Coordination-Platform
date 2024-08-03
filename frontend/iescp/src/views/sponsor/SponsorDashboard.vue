@@ -7,6 +7,7 @@
                     <h2 class="welcome">Hello, Sponsor!</h2>
                 </div>
             </div>
+            <button class="btn btn-success" @click="AddCampaign()"><i class="bi bi-plus-circle"></i>Add Campaign</button>
             <div class="row mt-3">
                 <div class="col-12">
                     <ViewSponsorCampaign />
@@ -24,6 +25,11 @@ export default {
     components: {
         SponsorNavbar,
         ViewSponsorCampaign
+    },
+    methods: {
+        AddCampaign() {
+            this.$router.push('/add/campaign');
+        }
     }
 };
 </script>
@@ -40,5 +46,10 @@ export default {
 
 .row {
     margin-bottom: 20px;
+}
+
+i {
+    color: black;
+    margin-right: 15px;
 }
 </style>

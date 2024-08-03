@@ -20,6 +20,13 @@ campaign_parser.add_argument('start_date')
 campaign_parser.add_argument('end_date')
 campaign_parser.add_argument('budget')
 
+create_campaign_parser = reqparse.RequestParser()
+create_campaign_parser.add_argument('name', required=True)
+create_campaign_parser.add_argument('start_date', required=True)
+create_campaign_parser.add_argument('end_date', required=True)
+create_campaign_parser.add_argument('budget', required=True)
+create_campaign_parser.add_argument('sponsor_id')
+
 class CampaignAPI(Resource):
     @marshal_with(output_fields)
     def get(self, campaign_id=None, sponsor_id=None, influencer_id=None):      
@@ -65,8 +72,15 @@ class CampaignAPI(Resource):
 
     @marshal_with(output_fields)
     def post(self):
-        args = campaign_parser.parse_args()
-        campaign = Campaign(name=args['name'], start_date=args['start_date'], end_date=args['end_date'], budget=args['budget'])
+        args = create_campaign_parser.parse_args()
+        campaign = Campaign(name=args['name'], start_date=args['start_date'], end_date=args['end_date'], budget=args['budget'], sponsor_id=args['sponsor_id'])
+        
+        try:
+            campaign.start_date = datetime.strptime(args['start_date'], '%Y-%m-%dT%H:%M:%S.%fZ')
+            campaign.end_date = datetime.strptime(args['end_date'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        except ValueError as e:
+            return {'message': f'Invalid date format: {e}'}, 400
+        
         db.session.add(campaign)
         db.session.commit()
         return campaign, 201
