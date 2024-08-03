@@ -2,6 +2,7 @@ from flask_restful import Resource, fields, marshal_with, reqparse
 from application.data.database import db
 from application.data.models import *
 from application.utils.validation import *
+from datetime import datetime
 
 output_fields = {
     "id": fields.Integer,
@@ -44,8 +45,13 @@ class CampaignAPI(Resource):
         campaign = Campaign.query.get(campaign_id)
         args = campaign_parser.parse_args()
         campaign.name = args['name']
-        campaign.start_date = args['start_date']
-        campaign.end_date = args['end_date']
+        
+        try:
+            campaign.start_date = datetime.strptime(args['start_date'], '%Y-%m-%dT%H:%M:%S.%fZ')
+            campaign.end_date = datetime.strptime(args['end_date'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        except ValueError as e:
+            return {'message': f'Invalid date format: {e}'}, 400
+        
         campaign.budget = args['budget']
         db.session.commit()
         return campaign

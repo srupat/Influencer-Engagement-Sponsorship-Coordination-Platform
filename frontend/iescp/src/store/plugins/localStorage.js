@@ -1,8 +1,8 @@
-// store/plugins/localStorage.js
+const localStoragePlugin = store => {
+  store.subscribe((mutation, state) => {
+    localStorage.setItem('sponsorID', state.sponsorID);
+    localStorage.setItem('campaignID', state.campaignID);
+  });
+};
 
-export default store => {
-    store.subscribe((mutation, state) => {
-      localStorage.setItem('sponsorID', state.sponsorID);
-    });
-  };
-  
+export default localStoragePlugin;

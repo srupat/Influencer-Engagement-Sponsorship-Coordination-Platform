@@ -61,8 +61,9 @@ app, api = create_app()
 api.add_resource(InfluencerAPI, '/api/influencer', '/api/influencer/<int:influencer_id>')
 api.add_resource(SponsorAPI, '/api/sponsor', '/api/sponsor/<int:sponsor_id>')
 api.add_resource(AdRequestAPI, '/api/ad_request', '/api/ad_request/<int:ad_request_id>')
-api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>', '/api/campaign/sponsor/<int:sponsor_id>', '/api/influencer/<int:influencer_id>')
+api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>', '/api/campaign/sponsor/<int:sponsor_id>', '/api/campaign/influencer/<int:influencer_id>')
 api.add_resource(UserAPI, '/api/user', '/api/user/<int:user_id>')
+
 
 
 if __name__ == '__main__':

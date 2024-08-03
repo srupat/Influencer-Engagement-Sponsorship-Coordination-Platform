@@ -21,6 +21,11 @@
             ></router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link" to="/campaign"
+              ><i class="bi bi-calendar-plus"></i
+            ></router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" to="/about"
               ><i class="bi bi-question-circle-fill"></i
             ></router-link>
@@ -67,7 +72,7 @@ export default {
           headers: {
             'Content-Type': 'application/json'
           },
-          credentials: 'include' 
+          credentials: 'include'
         })
 
         if (response.ok) {

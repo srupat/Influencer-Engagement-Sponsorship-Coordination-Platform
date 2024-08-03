@@ -61,6 +61,16 @@ const routes = [
     name: 'users',
     component: () => import('../views/admin/UserList.vue')
   },
+  {
+    path: '/campaign',
+    name: 'campaign',
+    component: () => import('../views/sponsor/CampaignManagement.vue')
+  },
+  {
+    path: '/edit/campaign',
+    name: 'campaign',
+    component: () => import('../views/sponsor/EditCampaign.vue')
+  },
 ]
 
 const router = createRouter({
