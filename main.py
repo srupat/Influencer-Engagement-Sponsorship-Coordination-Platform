@@ -17,6 +17,7 @@ from application.controller.apis.influencer_apis import InfluencerAPI
 from application.controller.apis.sponsor_apis import SponsorAPI
 from application.controller.apis.campaign_apis import CampaignAPI
 from application.controller.apis.user_apis import UserAPI
+from application.controller.apis.campaign_goals_apis import CampaignGoalAPI
 from flask_cors import CORS, cross_origin
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, get_jwt
 from datetime import timedelta
@@ -63,6 +64,7 @@ api.add_resource(SponsorAPI, '/api/sponsor', '/api/sponsor/<int:sponsor_id>')
 api.add_resource(AdRequestAPI, '/api/ad_request', '/api/ad_request/<int:ad_request_id>')
 api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>', '/api/campaign/sponsor/<int:sponsor_id>', '/api/campaign/influencer/<int:influencer_id>')
 api.add_resource(UserAPI, '/api/user', '/api/user/<int:user_id>')
+api.add_resource(CampaignGoalAPI, '/api/goal', '/api/goal/<int:campaign_id>')
 
 
 

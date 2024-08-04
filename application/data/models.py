@@ -66,4 +66,11 @@ class Campaign(db.Model):
     sponsor_id = db.Column(db.Integer, db.ForeignKey("sponsor.id"))
     influencer_id = db.Column(db.Integer, db.ForeignKey("influencer.id"))
     
+    
+class CampaignGoal(db.Model):
+    __tablename__ = 'campaign_goals'
+    id = db.Column(db.Integer(), primary_key=True)
+    campaign_id = db.Column(db.Integer, db.ForeignKey("campaign.id"))
+    goal = db.Column(db.String(255), nullable=False)
+    
 
