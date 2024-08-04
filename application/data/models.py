@@ -64,7 +64,6 @@ class Campaign(db.Model):
     is_public = db.Column(db.Integer, nullable=False, default=0)
     is_flagged = db.Column(db.Integer, nullable=False, default=0)
     sponsor_id = db.Column(db.Integer, db.ForeignKey("sponsor.id"))
-    influencer_id = db.Column(db.Integer, db.ForeignKey("influencer.id"))
     
     
 class CampaignGoal(db.Model):

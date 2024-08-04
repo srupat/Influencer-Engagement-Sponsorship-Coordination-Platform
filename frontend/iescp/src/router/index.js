@@ -71,6 +71,11 @@ const routes = [
     name: 'edit-campaign',
     component: () => import('../views/sponsor/EditCampaign.vue')
   },
+  {
+    path: '/sponsor/ad-requests',
+    name: 'ad-requests',
+    component: () => import('../views/sponsor/AdRequests.vue')
+  }
 ]
 
 const router = createRouter({

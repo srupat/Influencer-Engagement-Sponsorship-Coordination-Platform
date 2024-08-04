@@ -4,6 +4,19 @@
     <div v-for="campaign in campaigns" :key="campaign.id" class="campaign-component">
       <div class="horizontal-component">
         <div class="message">{{ campaign.name }}</div>
+        <div
+          class="progress"
+          role="progressbar"
+          aria-label="Basic example"
+          aria-valuenow="25"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div class="progress-bar" style="width: 25%">25%</div>
+        </div>
+        <button type="button" class="btn btn-info" @click="goToAdRequestsPage(campaign.id)">
+          <i class="bi bi-badge-ad"></i>
+        </button>
         <button class="btn btn-success" @click="toggleViewCampaign(campaign.id)">View</button>
         <button class="btn btn-warning" @click="EditCampaign(campaign.id)">Edit</button>
         <button class="btn btn-danger" @click="removeCampaign(campaign.id)">Delete</button>
@@ -87,6 +100,10 @@ export default {
       } catch (error) {
         console.error('Error:', error)
       }
+    },
+    goToAdRequestsPage(id) {
+      this.setCampaignID(id)
+      this.$router.push('/sponsor/ad-requests')
     }
   }
 }
@@ -123,6 +140,22 @@ export default {
   font-size: smaller;
 }
 
+.progress {
+  width: 150px;
+  height: 20px;
+  background-color: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #2c28a7;
+  transition: width 0.6s ease;
+}
+
 .btn-success,
 .btn-warning,
 .btn-danger {
@@ -133,5 +166,9 @@ h4 {
   margin-top: 30px;
   margin-bottom: 30px;
   color: #40e0d0;
+}
+
+i {
+  color: black;
 }
 </style>

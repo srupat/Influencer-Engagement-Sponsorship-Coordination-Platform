@@ -38,10 +38,6 @@ class CampaignAPI(Resource):
             campaigns = Campaign.query.filter(Campaign.sponsor_id == sponsor_id).all()
             print("sponsor id")
             return campaigns
-        if influencer_id:
-            campaigns = Campaign.query.filter(Campaign.influencer_id == influencer_id).all()
-            print("influencer id")
-            return campaigns
         campaigns = Campaign.query.all()
         print("all")
         return campaigns

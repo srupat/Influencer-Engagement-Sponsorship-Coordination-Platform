@@ -7,8 +7,7 @@ from application.utils.validation import *
 # RequestParser is used to create new objects with the JSON received from the frontend.
 
 output_fields = {
-    "influencer_id": fields.Integer,
-    "influencer_name": fields.String,
+    "name": fields.String,
     "category": fields.String,
     "niche": fields.String,
     "followers": fields.Integer
@@ -23,9 +22,12 @@ create_influencer_parser.add_argument('followers')
 
 class InfluencerAPI(Resource):
     @marshal_with(output_fields)
-    def get(self, influencer_id):
-        influencer = Influencer.query.get(influencer_id)
-        return influencer
+    def get(self, influencer_id=None):
+        if influencer_id:
+            influencer = Influencer.query.get(influencer_id)
+            return influencer
+        influencers = Influencer.query.all()
+        return influencers
 
     @marshal_with(output_fields)
     def post(self):

@@ -58,8 +58,6 @@ export default {
       }
     } catch (error) {
       console.error('Error fetching users:', error)
-    } finally {
-      this.loading = false
     }
   },
   computed: {
