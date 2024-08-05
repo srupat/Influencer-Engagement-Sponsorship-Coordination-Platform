@@ -17,9 +17,10 @@
                 <p class="email">{{ request.payment_amount }}</p>
               </div>
               <div class="options">
-                <button class="btn btn-warning" @click="EditRequest(request.id)">Edit</button>
+                <button class="btn btn-warning" @click="toggleNewEditAdRequest">Edit</button>
                 <button class="btn btn-danger" @click="DeleteRequest(request.id)">Delete</button>
               </div>
+              <EditRequest v-if="Editflag" @editFormSubmitted="handleEditFormSubmitted" :RequestID="request.id"/>
             </div>
             <div v-if="!requests.length" class="text-center">
               <p>No requests found.</p>
@@ -34,17 +35,20 @@
 <script>
 import NewAdRequest from '@/components/sponsor/NewAdRequest.vue'
 import SponsorNavbar from '@/components/sponsor/SponsorNavbar.vue'
+import EditRequest from '@/components/sponsor/EditRequest.vue';
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
     SponsorNavbar,
-    NewAdRequest
+    NewAdRequest, 
+    EditRequest
   },
   data() {
     return {
       requests: [],
-      flag: false
+      flag: false,
+      Editflag: false
     }
   },
   computed: {
@@ -71,9 +75,16 @@ export default {
     toggleNewAdRequest() {
       this.flag = !this.flag
     },
+    toggleNewEditAdRequest() {
+      this.Editflag = !this.Editflag
+    },
     handleFormSubmitted() {
       this.toggleNewAdRequest()
       this.fetchRequests() 
+    },
+    handleEditFormSubmitted() {
+      this.toggleNewEditAdRequest()
+      this.fetchRequests()
     },
   //   },
   //   async EditRequest(id) {

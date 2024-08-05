@@ -14,6 +14,7 @@ update_ad_request_parser = reqparse.RequestParser()
 update_ad_request_parser.add_argument('description')
 update_ad_request_parser.add_argument('requirements')
 update_ad_request_parser.add_argument('payment_amount')
+update_ad_request_parser.add_argument('influencer_id')
 
 create_ad_request_parser = reqparse.RequestParser()
 create_ad_request_parser.add_argument('influencer_id')
