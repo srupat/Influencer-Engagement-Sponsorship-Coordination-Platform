@@ -16,6 +16,10 @@
                 <p class="role">{{ request.requirements }}</p>
                 <p class="email">{{ request.payment_amount }}</p>
               </div>
+              <div class="options">
+                <button class="btn btn-warning" @click="EditRequest(request.id)">Edit</button>
+                <button class="btn btn-danger" @click="DeleteRequest(request.id)">Delete</button>
+              </div>
             </div>
             <div v-if="!requests.length" class="text-center">
               <p>No requests found.</p>
@@ -70,8 +74,29 @@ export default {
     handleFormSubmitted() {
       this.toggleNewAdRequest()
       this.fetchRequests() 
+    },
+  //   },
+  //   async EditRequest(id) {
+      
+  // },
+  async DeleteRequest(id) {
+    try {
+      const response = await fetch(
+        `http://localhost:8085/api/ad_request/${id}`,
+        {
+          method: 'DELETE'
+        }
+      )
+      if (response.ok) {
+        this.fetchRequests()
+      } else {
+        console.error('Failed to delete request:', response.statusText)
+      }
+    } catch (error) {
+      console.error('Error deleting request:', error)
     }
   }
+}
 }
 </script>
 
@@ -123,5 +148,11 @@ i {
 .email {
   font-size: 0.875rem;
   color: #666;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 }
 </style>

@@ -4,6 +4,7 @@ from application.data.models import *
 from application.utils.validation import *
 
 output_fields = {
+    "id": fields.Integer,
     "description": fields.String,
     "requirements": fields.String,
     "payment_amount": fields.Integer

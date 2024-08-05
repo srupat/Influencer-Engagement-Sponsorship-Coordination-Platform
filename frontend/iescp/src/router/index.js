@@ -75,6 +75,11 @@ const routes = [
     path: '/sponsor/ad-requests',
     name: 'ad-requests',
     component: () => import('../views/sponsor/AdRequests.vue')
+  },
+  {
+    path: '/request/edit',
+    name: 'edit-request',
+    component: () => import('../views/sponsor/EditRequest.vue')
   }
 ]
 
