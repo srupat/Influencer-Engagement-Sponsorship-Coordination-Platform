@@ -7,7 +7,8 @@ const store = createStore({
     return {
       role: '',
       sponsorID: localStorage.getItem('sponsorID') || null,
-      campaignID: localStorage.getItem('campaignID') || null
+      campaignID: localStorage.getItem('campaignID') || null,
+      influencerID: localStorage.getItem('influencerID') || null
     };
   },
   mutations: {
@@ -28,6 +29,12 @@ const store = createStore({
     },
     clearCampaignID(state) {
       state.campaignID = null;
+    },
+    setInfluencerID(state, influencerID) {
+      state.influencerID = influencerID;
+    },
+    clearInfluencerID(state) {
+      state.influencerID = null;
     }
   },
   actions: {
@@ -48,12 +55,19 @@ const store = createStore({
     },
     clearCampaignID({ commit }) {
       commit('clearCampaignID');
+    },
+    setInfluencerID({ commit }, influencerID) {
+      commit('setInfluencerID', influencerID);
+    },
+    clearInfluencerID({ commit }) {
+      commit('clearInfluencerID');
     }
   },
   getters: {
     role: state => state.role,
     sponsorID: state => state.sponsorID,
-    campaignID: state => state.campaignID
+    campaignID: state => state.campaignID,
+    influencerID: state => state.influencerID
   },
   plugins: [createPersistedState(), localStoragePlugin],
 });

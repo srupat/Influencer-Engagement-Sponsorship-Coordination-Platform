@@ -130,7 +130,7 @@ export default {
         this.$router.push('/login')
         this.clearRole()
         await this.fetchAndSetSponsorID()
-        console.log(this.$store.state.sponsorID)
+        console.log(this.sponsorID)
 
       } catch (error) {
         console.error(error)

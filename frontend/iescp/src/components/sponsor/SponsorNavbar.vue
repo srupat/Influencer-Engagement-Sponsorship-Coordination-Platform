@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'SponsorNavbar',
   data() {
@@ -60,6 +62,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['clearCampaignID']),
+    ...mapActions(['clearSponsorID']),
     async logout() {
       try {
         const response = await fetch('http://localhost:8085/auth/logout', {
@@ -72,6 +76,8 @@ export default {
 
         if (response.ok) {
           this.$router.push('/login')
+          this.clearCampaignID()
+          this.clearSponsorID()
         } else {
           console.error('Logout failed:', response.statusText)
         }

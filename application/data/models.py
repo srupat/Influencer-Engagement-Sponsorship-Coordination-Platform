@@ -50,8 +50,8 @@ class AdRequest(db.Model):
     description = db.Column(db.String(255))
     requirements = db.Column(db.String(255), nullable=False)
     payment_amount = db.Column(db.Integer(), nullable=False)
-    is_pending = db.Column(db.Integer, nullable=False, default=0)
-    is_accepted = db.Column(db.Integer, nullable=False, default=0)
+    is_pending = db.Column(db.Integer, nullable=False, default=1)
+    is_completed = db.Column(db.Integer, nullable=False, default=0)
 
 
 class Campaign(db.Model):

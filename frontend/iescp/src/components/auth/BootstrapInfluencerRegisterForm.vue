@@ -72,11 +72,22 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+  data() {
+    return {
+      user: '',
+    }
+  },
   computed: {
-    ...mapGetters(['role'])
+    ...mapGetters(['role']),
+    ...mapGetters(['influencerID'])
+  },
+  mounted() {
+    this.clearInfluencerID()
   },
   methods: {
     ...mapActions(['clearRole']),
+    ...mapActions(['setInfluencerID']),
+    ...mapActions(['clearInfluencerID']),
     async onSubmit(event) {
       event.preventDefault()
       const email = document.getElementById('exampleFormControlInput1').value
@@ -113,11 +124,22 @@ export default {
         this.$router.push('/login')
         console.log(this.role)
         this.clearRole()
-
+        await this.fetchAndSetInfluencerID()
+        console.log(this.influencerID)
         const data = await response.json()
         console.log(data)
       } catch (error) {
         console.error(error)
+      }
+    },
+    async fetchAndSetInfluencerID() {
+      try {
+        const response = await fetch(`http://localhost:8085/influencer/${this.user}`);
+        const data = await response.json();
+        console.log(data);
+        this.setSponsorID(data.id);
+      } catch (error) {
+        console.error(error);
       }
     }
   }
