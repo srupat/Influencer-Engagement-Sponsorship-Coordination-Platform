@@ -15,6 +15,7 @@ update_ad_request_parser.add_argument('requirements')
 update_ad_request_parser.add_argument('payment_amount')
 
 create_ad_request_parser = reqparse.RequestParser()
+create_ad_request_parser.add_argument('influencer_id')
 create_ad_request_parser.add_argument('description')
 create_ad_request_parser.add_argument('requirements')
 create_ad_request_parser.add_argument('payment_amount')
@@ -59,7 +60,7 @@ class AdRequestAPI(Resource):
     @marshal_with(output_fields)
     def post(self):
         args = create_ad_request_parser.parse_args()
-        ad_request = AdRequest(description=args['description'], requirements=args['requirements'], payment_amount=args['payment_amount'], campaign_id=args['campaign_id'])
+        ad_request = AdRequest(description=args['description'], requirements=args['requirements'], payment_amount=args['payment_amount'], campaign_id=args['campaign_id'], influencer_id=args['influencer_id'])
         db.session.add(ad_request)
         db.session.commit()
         return ad_request, 201

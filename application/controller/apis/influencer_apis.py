@@ -7,6 +7,7 @@ from application.utils.validation import *
 # RequestParser is used to create new objects with the JSON received from the frontend.
 
 output_fields = {
+    "id": fields.Integer,
     "name": fields.String,
     "category": fields.String,
     "niche": fields.String,

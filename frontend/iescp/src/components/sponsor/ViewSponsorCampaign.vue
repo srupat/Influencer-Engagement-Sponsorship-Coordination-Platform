@@ -26,6 +26,7 @@
         <p><strong>End Date:</strong> {{ campaign.end_date }}</p>
         <p><strong>Budget:</strong> {{ campaign.budget }}</p>
         <p><strong>Status:</strong> {{ campaign.isPublic ? 'Public' : 'Private' }}</p>
+        <button class="btn btn-secondary" @click="makePublic(campaign.id)">Make Campaign Public</button>
       </div>
     </div>
   </div>
@@ -104,6 +105,16 @@ export default {
     goToAdRequestsPage(id) {
       this.setCampaignID(id)
       this.$router.push('/sponsor/ad-requests')
+    },
+    async makePublic(id) {
+      const response = await fetch(`http://localhost:8085/campaign/public/${id}`, {
+        method: 'PUT'
+      })
+      if (response.ok) {
+      this.fetchCampaigns()
+      } else {
+        console.error('Error:', response.statusText)
+      }
     }
   }
 }

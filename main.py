@@ -7,6 +7,7 @@ from application.controller.admin.controllers import admin_bp
 from application.controller.apis.ad_request_apis import AdRequestAPI
 from application.controller.influencer.controllers import influencer_bp
 from application.controller.sponsor.controllers import sponsor_bp
+from application.controller.campaign.controllers import campaign_bp
 from application.utils.config import LocalDevelopmentConfig
 from flask_restful import Api
 from application.controller.controllers import *
@@ -28,6 +29,7 @@ def register_routes(app):
     app.register_blueprint(influencer_bp, url_prefix='/influencer')
     app.register_blueprint(sponsor_bp, url_prefix='/sponsor')
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(campaign_bp, url_prefix='/campaign')
     app.register_blueprint(main)
 
 
@@ -62,7 +64,7 @@ app, api = create_app()
 api.add_resource(InfluencerAPI, '/api/influencer', '/api/influencer/<int:influencer_id>')
 api.add_resource(SponsorAPI, '/api/sponsor', '/api/sponsor/<int:sponsor_id>')
 api.add_resource(AdRequestAPI, '/api/ad_request', '/api/ad_request/<int:ad_request_id>', '/api/campaign/request/<int:campaign_id>', '/api/influencer/request/<int:influencer_id>')
-api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>', '/api/campaign/sponsor/<int:campaign_id>', '/api/campaign/influencer/<int:influencer_id>')
+api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>', '/api/campaign/sponsor/<int:sponsor_id>', '/api/campaign/influencer/<int:influencer_id>')
 api.add_resource(UserAPI, '/api/user', '/api/user/<int:user_id>')
 api.add_resource(CampaignGoalAPI, '/api/goal', '/api/goal/<int:campaign_id>')
 
