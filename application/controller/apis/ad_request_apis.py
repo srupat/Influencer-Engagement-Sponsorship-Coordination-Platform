@@ -5,9 +5,12 @@ from application.utils.validation import *
 
 output_fields = {
     "id": fields.Integer,
+    "name": fields.String,
     "description": fields.String,
     "requirements": fields.String,
-    "payment_amount": fields.Integer
+    "payment_amount": fields.Integer,
+    "is_pending": fields.Integer,
+    "influencer_id": fields.Integer,
 }
 
 update_ad_request_parser = reqparse.RequestParser()
@@ -15,6 +18,12 @@ update_ad_request_parser.add_argument('description')
 update_ad_request_parser.add_argument('requirements')
 update_ad_request_parser.add_argument('payment_amount')
 update_ad_request_parser.add_argument('influencer_id')
+
+reject_request_parser = reqparse.RequestParser()
+reject_request_parser.add_argument('influencer_id')
+
+accept_request_parser = reqparse.RequestParser()
+accept_request_parser.add_argument('is_pending')
 
 create_ad_request_parser = reqparse.RequestParser()
 create_ad_request_parser.add_argument('influencer_id')
@@ -66,3 +75,19 @@ class AdRequestAPI(Resource):
         db.session.add(ad_request)
         db.session.commit()
         return ad_request, 201
+    
+    @marshal_with(output_fields)
+    def patch(self, ad_request_id, action):
+        ad_request = AdRequest.query.get(ad_request_id)
+        if action == "accept":
+            args = accept_request_parser.parse_args()
+            ad_request.is_pending = args['is_pending']
+            db.session.commit()
+            return ad_request
+        elif action == "reject":
+            args = reject_request_parser.parse_args()
+            ad_request.influencer_id = None
+            db.session.commit()
+            return ad_request
+        else:
+            return {"message": "Invalid action"}, 400

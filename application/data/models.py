@@ -45,6 +45,7 @@ class Influencer(db.Model):
 class AdRequest(db.Model):
     __tablename__ = 'ad_request'
     id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True, nullable=False)
     campaign_id = db.Column(db.Integer, db.ForeignKey("campaign.id"))
     influencer_id = db.Column(db.Integer, db.ForeignKey("influencer.id"))
     description = db.Column(db.String(255))

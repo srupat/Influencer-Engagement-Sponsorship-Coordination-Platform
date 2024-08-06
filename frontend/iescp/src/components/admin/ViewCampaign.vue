@@ -27,7 +27,6 @@
                 <p><strong>End Date:</strong> {{ campaign.end_date }}</p>
                 <p><strong>Budget:</strong> {{ campaign.budget }}</p>
                 <p><strong>Status:</strong> {{ campaign.isPublic ? 'Public' : 'Private' }}</p>
-                <!-- <p><strong>Flagged:</strong> {{ campaign.isFlagged ? 'Yes' : 'No' }}</p> -->
             </div>
         </div>
     </div>

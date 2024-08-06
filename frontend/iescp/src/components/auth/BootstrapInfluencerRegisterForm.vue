@@ -39,7 +39,7 @@
         <input
           class="form-control"
           id="exampleFormControlInput3"
-          placeholder="username"
+          placeholder="Category"
           style="width: 300px; height: 40px"
         />
       </div>
@@ -48,7 +48,7 @@
         <input
           class="form-control"
           id="exampleFormControlInput4"
-          placeholder="username"
+          placeholder="Niche"
           style="width: 300px; height: 40px"
         />
       </div>
@@ -57,7 +57,7 @@
         <input
           class="form-control"
           id="exampleFormControlInput5"
-          placeholder="username"
+          placeholder="Followers"
           style="width: 300px; height: 40px"
         />
       </div>
@@ -98,6 +98,8 @@ export default {
       const followers = document.getElementById('exampleFormControlInput5').value
       const role = this.role
 
+      this.user = username
+      
       const userData = {
         email,
         username,
@@ -121,23 +123,26 @@ export default {
           throw new Error(`An error has occurred: ${response.status}`)
         }
 
+        const data = await response.json()
+        // console.log(data)
+
         this.$router.push('/login')
-        console.log(this.role)
+        // console.log(this.role)
         this.clearRole()
         await this.fetchAndSetInfluencerID()
-        console.log(this.influencerID)
-        const data = await response.json()
-        console.log(data)
+        // console.log(this.influencerID)
+        
       } catch (error) {
         console.error(error)
       }
     },
     async fetchAndSetInfluencerID() {
       try {
+        console.log(this.user);
         const response = await fetch(`http://localhost:8085/influencer/${this.user}`);
         const data = await response.json();
-        console.log(data);
-        this.setSponsorID(data.id);
+        // console.log(data);
+        this.setInfluencerID(data.id);
       } catch (error) {
         console.error(error);
       }
