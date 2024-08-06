@@ -21,7 +21,7 @@
             ></router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/about"
+            <router-link class="nav-link" to="/about/sponsor"
               ><i class="bi bi-question-circle-fill"></i
             ></router-link>
           </li>

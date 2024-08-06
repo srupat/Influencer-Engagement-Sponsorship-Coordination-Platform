@@ -47,9 +47,19 @@ const routes = [
     component: () => import('../views/sponsor/SponsorDashboard.vue')
   },
   {
-    path: '/about',
+    path: '/about/admin',
     name: 'about',
-    component: () => import('../views/common/AboutComponent.vue')
+    component: () => import('../views/admin/AdminAboutComponent.vue')
+  },
+  {
+    path: '/about/sponsor',
+    name: 'about-sponsor',
+    component: () => import('../views/sponsor/SponsorAboutComponent.vue')
+  },
+  {
+    path: '/about/influencer',
+    name: 'about-influencer',
+    component: () => import('../views/influencer/InfluencerAboutComponent.vue')
   },
   {
     path: '/contact',

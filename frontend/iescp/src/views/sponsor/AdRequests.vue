@@ -10,7 +10,7 @@
           </button>
           <NewAdRequest v-if="flag" @formSubmitted="handleFormSubmitted" />
           <div class="user-list">
-            <div v-for="request in requests" :key="request.id" class="user-card">
+            <div v-for="request in pendingRequests" :key="request.id" class="user-card">
               <div class="user-info">
                 <p class="username">{{ request.description }}</p>
                 <p class="role">{{ request.requirements }}</p>
@@ -52,7 +52,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['campaignID'])
+    ...mapGetters(['campaignID']),
+    pendingRequests() {
+      return this.requests.filter(request => request.is_pending)
+    }
   },
   async mounted() {
     this.fetchRequests()
