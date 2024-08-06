@@ -29,6 +29,21 @@
         <button class="btn btn-secondary" @click="makePublic(campaign.id)">Make Campaign Public</button>
       </div>
     </div>
+    <h4>Requests</h4>
+    <div v-for="request in requests" :key="request.id" class="campaign-component">
+      <div class="horizontal-component">
+        <div class="message">{{ request.name }}</div>
+        <button class="btn btn-info" @click="toggleViewRequest(request.id)">Influencer Info</button>
+        <button class="btn btn-success" @click="acceptRequest(request.id)">Accept</button>
+        <button class="btn btn-danger" @click="rejectRequest(request.id)">Reject</button>
+      </div>
+      <div v-if="selectedRequest === request.id" class="campaign-details">
+        <p><strong>Name:</strong> {{ influencer.name }}</p>
+        <p><strong>Category:</strong> {{ influencer.category }}</p>
+        <p><strong>Niche:</strong> {{ influencer.niche }}</p>
+        <p><strong>Followers:</strong> {{ influencer.followers }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,11 +54,15 @@ export default {
   data() {
     return {
       campaigns: [],
-      selectedCampaign: null
+      selectedCampaign: null,
+      requests: [],
+      selectedRequest: null,
+      influencer: null
     }
   },
-  mounted() {
-    this.fetchCampaigns()
+  async mounted() {
+    await this.fetchCampaigns()
+    this.fetchRequests()
   },
   computed: {
     ...mapGetters(['sponsorID'])
@@ -81,6 +100,33 @@ export default {
         console.error('Error:', error)
       }
     },
+    async fetchRequests() {
+      try {
+        const response = await fetch('http://localhost:8085/api/ad_request')
+        const data = await response.json()
+        this.requests = data.map((item) => ({
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          requirements: item.requirements,
+          payment_amount: item.payment_amount,
+          isPending: item.is_pending,
+          influencer_id: item.influencer_id,
+          campaign_id: item.campaign_id
+        }))
+
+        const campaignIDs = this.campaigns.map((campaign) => campaign.id)
+        console.log(this.requests)
+        console.log(campaignIDs)
+        this.requests = this.requests.filter(
+          (request) => campaignIDs.includes(request.campaign_id) && request.isPending && request.influencer_id
+        )
+
+        console.log(this.requests)
+      } catch (error) {
+        console.error('Error:', error)
+      }
+    },
     toggleViewCampaign(id) {
       this.selectedCampaign = this.selectedCampaign === id ? null : id
     },
@@ -111,9 +157,72 @@ export default {
         method: 'PUT'
       })
       if (response.ok) {
-      this.fetchCampaigns()
+        this.fetchCampaigns()
       } else {
         console.error('Error:', response.statusText)
+      }
+    },
+    async toggleViewRequest(id) {
+      if (this.selectedRequest === id) {
+        this.selectedRequest = null
+        this.influencer = null
+      } else {
+        this.selectedRequest = id
+        const request = this.requests.find((req) => req.id === id)
+        if (request) {
+          const influencerID = request.influencer_id
+          try {
+            const response = await fetch(`http://localhost:8085/api/influencer/${influencerID}`)
+            if (response.ok) {
+              const data = await response.json()
+              this.influencer = data
+            } else {
+              console.error(`Failed to fetch influencer: ${response.statusText}`)
+              this.influencer = null
+            }
+          } catch (error) {
+            console.error('Error:', error)
+            this.influencer = null
+          }
+        }
+      }
+    },
+    async acceptRequest(id) {
+      try {
+        const response = await fetch(`http://localhost:8085/api/ad_request/accept/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            is_pending: 0
+          })
+        })
+        if (response.ok) {
+          this.fetchRequests()
+        } else {
+          console.error('Error:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Error:', error)
+      }
+    },
+    async rejectRequest(id) {
+      try {
+        const response = await fetch(`http://localhost:8085/api/ad_request/reject/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({})
+        })
+        if (response.ok) {
+          this.fetchRequests()
+        } else {
+          console.error('Error:', response.statusText)
+        }
+      } catch (error) {
+        console.error('Error:', error)
       }
     }
   }

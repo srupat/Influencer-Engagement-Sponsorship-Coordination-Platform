@@ -90,6 +90,11 @@ const routes = [
     path: '/search/influencers',
     name: 'search-influencer',
     component: () => import('../views/sponsor/SearchInfluencer.vue')
+  },
+  {
+    path: '/search/campaigns',
+    name: 'search-campaigns',
+    component: () => import('../views/influencer/SearchCampaigns.vue')
   }
 ]
 

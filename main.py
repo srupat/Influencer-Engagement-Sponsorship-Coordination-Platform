@@ -8,6 +8,7 @@ from application.controller.apis.ad_request_apis import AdRequestAPI
 from application.controller.influencer.controllers import influencer_bp
 from application.controller.sponsor.controllers import sponsor_bp
 from application.controller.campaign.controllers import campaign_bp
+from application.controller.ad_request.controllers import request_bp
 from application.utils.config import LocalDevelopmentConfig
 from flask_restful import Api
 from application.controller.controllers import *
@@ -30,6 +31,7 @@ def register_routes(app):
     app.register_blueprint(sponsor_bp, url_prefix='/sponsor')
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(campaign_bp, url_prefix='/campaign')
+    app.register_blueprint(request_bp, url_prefix='/request')
     app.register_blueprint(main)
 
 

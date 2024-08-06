@@ -11,6 +11,7 @@ output_fields = {
     "payment_amount": fields.Integer,
     "is_pending": fields.Integer,
     "influencer_id": fields.Integer,
+    "campaign_id": fields.Integer
 }
 
 update_ad_request_parser = reqparse.RequestParser()
