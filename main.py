@@ -9,9 +9,9 @@ from application.controller.influencer.controllers import influencer_bp
 from application.controller.sponsor.controllers import sponsor_bp
 from application.controller.campaign.controllers import campaign_bp
 from application.controller.ad_request.controllers import request_bp
+from application.controller.controllers import main
 from application.utils.config import LocalDevelopmentConfig
 from flask_restful import Api
-from application.controller.controllers import *
 from application.data.database import db
 from flask_security import Security, SQLAlchemySessionUserDatastore
 from application.data.models import *
@@ -23,7 +23,7 @@ from application.controller.apis.campaign_goals_apis import CampaignGoalAPI
 from flask_cors import CORS, cross_origin
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, get_jwt
 from datetime import timedelta
-
+from application.jobs.workers import make_celery
 
 def register_routes(app):
     app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -33,7 +33,6 @@ def register_routes(app):
     app.register_blueprint(campaign_bp, url_prefix='/campaign')
     app.register_blueprint(request_bp, url_prefix='/request')
     app.register_blueprint(main)
-
 
 def create_app():
     app = Flask(__name__, template_folder="templates")
@@ -46,6 +45,8 @@ def create_app():
     cors = CORS(app, supports_credentials=True)
     jwt = JWTManager(app)
     migrate = Migrate(app, db)
+    
+    celery = make_celery(app)
 
     @jwt.user_identity_loader
     def user_identity_lookup(user):
@@ -57,11 +58,12 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+        
+    app.app_context().push()
 
-    return app, api
+    return app, api, celery
 
-
-app, api = create_app()
+app, api, celery = create_app()
 
 api.add_resource(InfluencerAPI, '/api/influencer', '/api/influencer/<int:influencer_id>')
 api.add_resource(SponsorAPI, '/api/sponsor', '/api/sponsor/<int:sponsor_id>')
@@ -69,8 +71,6 @@ api.add_resource(AdRequestAPI, '/api/ad_request', '/api/ad_request/<int:ad_reque
 api.add_resource(CampaignAPI, '/api/campaign', '/api/campaign/<int:campaign_id>', '/api/campaign/sponsor/<int:sponsor_id>', '/api/campaign/influencer/<int:influencer_id>')
 api.add_resource(UserAPI, '/api/user', '/api/user/<int:user_id>')
 api.add_resource(CampaignGoalAPI, '/api/goal', '/api/goal/<int:campaign_id>')
-
-
 
 if __name__ == '__main__':
     app.debug = True

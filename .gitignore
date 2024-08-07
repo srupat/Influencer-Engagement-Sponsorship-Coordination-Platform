@@ -3,3 +3,10 @@ application/utils/config.py
 env
 /application/data/__pycache__
 application/utils/__pycache__/config.cpython-312.pyc
+application/jobs/send_email.py
+application/send_email.py
+application/utils/__pycache__/config.cpython-312.pyc
+celerybeat-schedule.bak
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir

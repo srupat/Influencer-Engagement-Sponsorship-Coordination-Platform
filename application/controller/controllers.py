@@ -1,55 +1,41 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, jsonify
 from flask_security import login_required
 from flask import Blueprint
 from flask_security import logout_user
+from application.jobs import tasks
+from datetime import datetime
+from application.data.models import *
+from application.send_email import send_email
 
 from application.auth.auth import roles_required
 
 main = Blueprint('main', __name__)
 
+@main.route("/hello", methods = ["GET", "POST"])
+def hello():
+    now = datetime.now()
+    print("now in flask =", now)
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    print("date and time = ", dt_string)
+    job = tasks.print_current_time_job.apply_async(countdown=10)
+    result= job.wait()
+    return str(result), 200
 
-@main.route('/', methods=['GET', 'POST'])
-# @login_required
-def home():
-    return render_template("home.html")
-
-
-# @main.route('/logout', methods=['GET'])
-# def logout():
-#     logout_user()
-#     return redirect(url_for('main.home'))
-
-
-# @main.route('/login', methods=['GET', 'POST'])
-# def custom_login():
-#     form = ExtendedLoginForm(request.form)
-#     if form.validate_on_submit():
-#         user = User.query.filter_by(email=form.email.data).first()
-#         if user and verify_and_update_password(form.password.data, user):
-#             login_user(user, remember=form.remember.data)
-#             if form.admin.data:
-#                 return redirect(url_for('main.admin'))
-#             elif form.sponsor.data:
-#                 return redirect(url_for('main.sponsor'))
-#             elif form.influencer.data:
-#                 return redirect(url_for('main.influencer'))
-#             return redirect(url_for('main.home'))
-#     return render_template('security/login_user.html', form=form)
-#
-#
-@main.route('/admin')
-@roles_required('admin')
-def admin():
-    return "Admin Page"
-
-
-@main.route('/sponsor')
-@roles_required('sponsor')
-def sponsor():
-    return "Sponsor Page"
-
-
-@main.route('/influencer')
-@roles_required('influencer')
-def influencer():
-    return "Influencer Page"
+@main.route('/influencers/request', methods = ["GET", "POST"])
+def query_influencers_with_pending_requests():
+    ad_requests = AdRequest.query.filter(AdRequest.is_pending == 1)
+    influencers_ids = set()
+    for request in ad_requests:
+        influencers_ids.add(request.influencer_id)
+    print(influencers_ids)
+    influencer_emails = []
+    for id in influencers_ids:
+        print(id)
+        influencer = Influencer.query.get(id)
+        user = User.query.filter(User.username == influencer.name).first()
+        influencer_emails.append(user.email)
+    subject = 'Reminder: You have pending ad requests'
+    body = 'Please check your account for pending ad requests.'
+    for email in influencer_emails:
+        send_email(subject, body, email)
+    return jsonify(influencer_emails), 200
