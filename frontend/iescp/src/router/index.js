@@ -95,6 +95,11 @@ const routes = [
     path: '/search/campaigns',
     name: 'search-campaigns',
     component: () => import('../views/influencer/SearchCampaigns.vue')
+  },
+  {
+    path: '/campaign/goals',
+    name: 'campaign-goals',
+    component: () => import('../views/sponsor/CampaignGoals.vue')
   }
 ]
 

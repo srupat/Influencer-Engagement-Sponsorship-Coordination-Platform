@@ -7,8 +7,7 @@ import logging
 
 @celery.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    # sender.add_periodic_task(10.0, print_current_time_job.s(), name='At every 10 seconds')
-    sender.add_periodic_task(30.0, send_reminders.s(), name='Send an email to influencers every 30 seconds')
+    sender.add_periodic_task(60.0, send_reminders.s(), name='Send an email to influencers every minute')
 
 @celery.task()
 def send_reminders():
@@ -33,3 +32,5 @@ def query_influencers_with_pending_requests():
         influencer_emails.append(user.email)
     print(influencer_emails)
     return influencer_emails
+
+

@@ -58,6 +58,8 @@ export default {
   },
   methods: {
     ...mapActions(['clearRole']),
+    ...mapActions(['setSponsorID']),
+    ...mapActions(['setInfluencerID']),
     async onSubmit(event) {
       event.preventDefault()
       // const email = document.getElementById('exampleFormControlInput1').value
@@ -90,8 +92,10 @@ export default {
       if (data.role === "Admin") {
         this.$router.push('/admin/dashboard')
       } else if (data.role === "Influencer") {
+        this.setInfluencerID(data.id)
         this.$router.push('/influencer/dashboard')
       } else if (data.role === "Sponsor") {
+        this.setSponsorID(data.id)
         this.$router.push('/sponsor/dashboard')
       }
       console.log(data)

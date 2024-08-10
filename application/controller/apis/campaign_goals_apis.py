@@ -4,8 +4,10 @@ from application.data.models import *
 from application.utils.validation import *
 
 output_fields = {
+    "id": fields.Integer,
     "campaign_id": fields.Integer,
-    "goal": fields.String
+    "goal": fields.String,
+    "is_completed": fields.Integer
 }
 
 create_goal_parser = reqparse.RequestParser()

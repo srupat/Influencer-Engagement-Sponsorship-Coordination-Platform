@@ -54,7 +54,7 @@ export default {
   computed: {
     ...mapGetters(['campaignID']),
     pendingRequests() {
-      return this.requests.filter(request => request.is_pending)
+      return this.requests.filter(request => request.is_pending && !request.is_completed)
     }
   },
   async mounted() {

@@ -7,13 +7,17 @@
         <div
           class="progress"
           role="progressbar"
-          aria-label="Basic example"
-          aria-valuenow="25"
+          :aria-valuenow="campaign.progress"
           aria-valuemin="0"
           aria-valuemax="100"
         >
-          <div class="progress-bar" style="width: 25%">25%</div>
+          <div class="progress-bar" :style="{ width: campaign.progress + '%' }">
+            {{ campaign.progress }}%
+          </div>
         </div>
+        <button class="btn btn-secondary" @click="goToGoalsPage(campaign.id)">
+          <i class="bi bi-check-all"></i>
+        </button>
         <button type="button" class="btn btn-info" @click="goToAdRequestsPage(campaign.id)">
           <i class="bi bi-badge-ad"></i>
         </button>
@@ -26,7 +30,9 @@
         <p><strong>End Date:</strong> {{ campaign.end_date }}</p>
         <p><strong>Budget:</strong> {{ campaign.budget }}</p>
         <p><strong>Status:</strong> {{ campaign.isPublic ? 'Public' : 'Private' }}</p>
-        <button class="btn btn-secondary" @click="makePublic(campaign.id)">Make Campaign Public</button>
+        <button class="btn btn-secondary" @click="makePublic(campaign.id)">
+          Make Campaign Public
+        </button>
       </div>
     </div>
     <h4>Requests</h4>
@@ -87,15 +93,27 @@ export default {
         }
         const data = await response.json()
         console.log(data)
-        this.campaigns = data.map((item) => ({
-          id: item.id,
-          name: item.name,
-          start_date: item.start_date,
-          end_date: item.end_date,
-          budget: item.budget,
-          isPublic: item.is_public,
-          isFlagged: item.is_flagged
-        }))
+
+        const campaignsWithProgress = await Promise.all(
+          data.map(async (item) => {
+            const progressResponse = await fetch(
+              `http://localhost:8085/campaign/progress/${item.id}`
+            )
+            const progressData = await progressResponse.json()
+            return {
+              id: item.id,
+              name: item.name,
+              start_date: item.start_date,
+              end_date: item.end_date,
+              budget: item.budget,
+              isPublic: item.is_public,
+              isFlagged: item.is_flagged,
+              progress: progressData.progress
+            }
+          })
+        )
+
+        this.campaigns = campaignsWithProgress
       } catch (error) {
         console.error('Error:', error)
       }
@@ -119,7 +137,8 @@ export default {
         console.log(this.requests)
         console.log(campaignIDs)
         this.requests = this.requests.filter(
-          (request) => campaignIDs.includes(request.campaign_id) && request.isPending && request.influencer_id
+          (request) =>
+            campaignIDs.includes(request.campaign_id) && request.isPending && request.influencer_id
         )
 
         console.log(this.requests)
@@ -151,6 +170,10 @@ export default {
     goToAdRequestsPage(id) {
       this.setCampaignID(id)
       this.$router.push('/sponsor/ad-requests')
+    },
+    goToGoalsPage(id) {
+      this.setCampaignID(id)
+      this.$router.push('/campaign/goals')
     },
     async makePublic(id) {
       const response = await fetch(`http://localhost:8085/campaign/public/${id}`, {
@@ -280,6 +303,10 @@ export default {
 .btn-warning,
 .btn-danger {
   margin-left: 10px;
+}
+
+.btn-secondary {
+  margin-right: 10px;
 }
 
 h4 {

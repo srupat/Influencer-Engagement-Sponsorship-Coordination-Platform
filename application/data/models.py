@@ -72,5 +72,6 @@ class CampaignGoal(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     campaign_id = db.Column(db.Integer, db.ForeignKey("campaign.id"))
     goal = db.Column(db.String(255), nullable=False)
+    is_completed = db.Column(db.Integer, nullable=False, default=0)
     
 

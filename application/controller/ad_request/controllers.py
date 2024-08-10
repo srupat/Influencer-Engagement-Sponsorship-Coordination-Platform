@@ -28,3 +28,10 @@ def reject_influencer_request(ad_request_id):
     ad_request.influencer_id = None
     db.session.commit()
     return 'influencer request rejected', 201
+
+@request_bp.route('/complete/<int:ad_request_id>', methods=['PUT'])
+def complete_ad_request(ad_request_id):
+    ad_request = AdRequest.query.get(ad_request_id)
+    ad_request.is_completed = 1
+    db.session.commit()
+    return 'Ad request completed', 200

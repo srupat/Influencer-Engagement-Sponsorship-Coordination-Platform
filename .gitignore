@@ -10,3 +10,4 @@ celerybeat-schedule.bak
 celerybeat-schedule.bak
 celerybeat-schedule.dat
 celerybeat-schedule.dir
+/application/jobs/__pycache__

@@ -4,6 +4,9 @@
     <div v-for="request in requests" :key="request.id" class="campaign-component">
       <div class="horizontal-component">
         <div class="message">{{ request.name }}</div>
+        <button class="btn btn-success" @click="completeRequest(request.id)">
+          <i class="bi bi-check-all"></i>
+        </button>
         <button class="btn btn-info" @click="toggleViewRequest(request.id)">View</button>
       </div>
       <div v-if="selectedRequest === request.id" class="campaign-details">
@@ -58,18 +61,23 @@ export default {
           requirements: item.requirements,
           payment_amount: item.payment_amount,
           isPending: item.is_pending,
-          influencer_id: item.influencer_id
+          influencer_id: item.influencer_id,
+          isComplete: item.is_completed
         }))
 
-        this.requestedRequests = this.requests.filter(
-          (request) => request.isPending && request.influencer_id === this.influencerID
-        )
-        this.requests = this.requests.filter(
-          (request) => !request.isPending && request.influencer_id === this.influencerID
+        const pendingRequests = this.requests.filter(
+          (request) =>
+            request.isPending && request.influencer_id === this.influencerID && !request.isComplete
         )
 
-        console.log(this.requests);
-        
+        this.requestedRequests = pendingRequests
+
+        this.requests = this.requests.filter(
+          (request) =>
+            !request.isPending && request.influencer_id === this.influencerID && !request.isComplete
+        )
+
+        console.log(this.requests)
       } catch (error) {
         console.error('Error:', error)
       }
@@ -110,6 +118,19 @@ export default {
         }
       } catch (error) {
         console.error('Error:', error)
+      }
+    },
+    async completeRequest(id) {
+      const response = await fetch(`http://localhost:8085/request/complete/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      if (response.ok) {
+        this.fetchRequests()
+      } else {
+        console.error('Error:', response.statusText)
       }
     },
     toggleViewRequest(id) {
@@ -154,6 +175,7 @@ export default {
 .btn-danger,
 .btn-warning {
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 h4 {
