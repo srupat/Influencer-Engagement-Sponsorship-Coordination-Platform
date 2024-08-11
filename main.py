@@ -1,6 +1,5 @@
 import os
 from flask import Flask
-from flask.scaffold import setupmethod
 from flask_migrate import Migrate
 from application.auth.auth import auth_bp
 from application.controller.admin.controllers import admin_bp
@@ -20,10 +19,10 @@ from application.controller.apis.sponsor_apis import SponsorAPI
 from application.controller.apis.campaign_apis import CampaignAPI
 from application.controller.apis.user_apis import UserAPI
 from application.controller.apis.campaign_goals_apis import CampaignGoalAPI
-from flask_cors import CORS, cross_origin
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, get_jwt
-from datetime import timedelta
+from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from application.jobs.workers import make_celery
+from flask_caching import Cache
 
 def register_routes(app):
     app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -60,10 +59,12 @@ def create_app():
         db.create_all()
         
     app.app_context().push()
+    cache = Cache(app)
+    app.app_context().push()
 
-    return app, api, celery
+    return app, api, celery, cache
 
-app, api, celery = create_app()
+app, api, celery, cache = create_app()
 
 api.add_resource(InfluencerAPI, '/api/influencer', '/api/influencer/<int:influencer_id>')
 api.add_resource(SponsorAPI, '/api/sponsor', '/api/sponsor/<int:sponsor_id>')
