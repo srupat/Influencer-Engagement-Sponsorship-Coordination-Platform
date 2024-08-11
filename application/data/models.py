@@ -11,7 +11,7 @@ roles_users = db.Table('roles_users',
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    email = db.Column(db.String, unique=True)
+    email = db.Column(db.String)
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     username = db.Column(db.String(255), unique=True)

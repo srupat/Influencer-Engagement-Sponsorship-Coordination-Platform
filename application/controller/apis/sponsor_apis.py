@@ -5,7 +5,7 @@ from application.utils.validation import *
 
 output_fields = {
     "sponsor_id": fields.Integer,
-    "sponsor_name": fields.String,
+    "name": fields.String,
     "company_desc": fields.String,
     "industry": fields.String,
     "budget": fields.Integer
@@ -19,7 +19,10 @@ create_sponsor_parser.add_argument('budget')
 
 class SponsorAPI(Resource):
     @marshal_with(output_fields)
-    def get(self, sponsor_id):
+    def get(self, sponsor_id=None):
+        if sponsor_id is None:
+            sponsors = Sponsor.query.all()
+            return sponsors
         sponsor = Sponsor.query.get(sponsor_id)
         return sponsor
 

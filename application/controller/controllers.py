@@ -6,6 +6,8 @@ from application.jobs import tasks
 from datetime import datetime
 from application.data.models import *
 from application.send_email import send_email
+from sqlalchemy.sql import func
+from main import cache
 
 from application.auth.auth import roles_required
 
@@ -39,3 +41,22 @@ def query_influencers_with_pending_requests():
     for email in influencer_emails:
         send_email(subject, body, email)
     return jsonify(influencer_emails), 200
+
+@main.route('/export_csv/<int:sponsor_id>', methods=["POST"])
+def export_campaigns(sponsor_id):
+    job = tasks.export_campaigns_csv.apply_async(args=[sponsor_id])
+    return jsonify({"task_id": job.id}), 200
+
+
+@main.route('/roles', methods=["GET"])
+@cache.cached(timeout=300) 
+def get_roles_users():
+    num_admins = count_users_by_role('Admin')
+    num_sponsors = count_users_by_role('Sponsor')
+    num_influencers = count_users_by_role('Influencer')
+    
+    return jsonify({"Admins": num_admins, "Sponsors": num_sponsors, "Influencers": num_influencers}), 200
+    
+    
+def count_users_by_role(role_name):
+    return db.session.query(func.count(User.id)).join(roles_users).join(Role).filter(Role.name == role_name).scalar()

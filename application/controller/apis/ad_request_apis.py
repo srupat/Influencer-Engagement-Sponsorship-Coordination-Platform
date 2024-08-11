@@ -12,7 +12,8 @@ output_fields = {
     "is_pending": fields.Integer,
     "influencer_id": fields.Integer,
     "campaign_id": fields.Integer,
-    "is_completed": fields.Integer
+    "is_completed": fields.Integer,
+    "name": fields.String,
 }
 
 update_ad_request_parser = reqparse.RequestParser()
@@ -20,6 +21,7 @@ update_ad_request_parser.add_argument('description')
 update_ad_request_parser.add_argument('requirements')
 update_ad_request_parser.add_argument('payment_amount')
 update_ad_request_parser.add_argument('influencer_id')
+update_ad_request_parser.add_argument('name')
 
 reject_request_parser = reqparse.RequestParser()
 reject_request_parser.add_argument('influencer_id')
@@ -33,6 +35,7 @@ create_ad_request_parser.add_argument('description')
 create_ad_request_parser.add_argument('requirements')
 create_ad_request_parser.add_argument('payment_amount')
 create_ad_request_parser.add_argument('campaign_id')
+create_ad_request_parser.add_argument('name')
 
 class AdRequestAPI(Resource):
     @marshal_with(output_fields)
@@ -60,6 +63,7 @@ class AdRequestAPI(Resource):
         ad_request.description = args['description']
         ad_request.requirements = args['requirements']
         ad_request.payment_amount = args['payment_amount']
+        ad_request.payment_amount = args['name']
         db.session.commit()
         return ad_request
 
@@ -73,7 +77,7 @@ class AdRequestAPI(Resource):
     @marshal_with(output_fields)
     def post(self):
         args = create_ad_request_parser.parse_args()
-        ad_request = AdRequest(description=args['description'], requirements=args['requirements'], payment_amount=args['payment_amount'], campaign_id=args['campaign_id'], influencer_id=args['influencer_id'])
+        ad_request = AdRequest(description=args['description'], requirements=args['requirements'], payment_amount=args['payment_amount'], campaign_id=args['campaign_id'], influencer_id=args['influencer_id'], name=args['name'])
         db.session.add(ad_request)
         db.session.commit()
         return ad_request, 201
