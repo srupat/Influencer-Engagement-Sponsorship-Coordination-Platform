@@ -12,7 +12,8 @@
           <div class="user-list">
             <div v-for="request in pendingRequests" :key="request.id" class="user-card">
               <div class="user-info">
-                <p class="username">{{ request.description }}</p>
+                <p class="username">{{ request.name }}</p>
+                <p class="role">{{ request.description }}</p>
                 <p class="role">{{ request.requirements }}</p>
                 <p class="email">{{ request.payment_amount }}</p>
               </div>

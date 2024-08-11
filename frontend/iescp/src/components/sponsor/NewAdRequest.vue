@@ -2,6 +2,10 @@
   <div class="container">
     <form @submit.prevent="submitForm">
       <div class="form-group">
+        <label for="desc">Name:</label>
+        <input type="text" class="form-control" id="name" v-model="name" />
+      </div>
+      <div class="form-group">
         <label for="desc">Description:</label>
         <input type="text" class="form-control" id="desc" v-model="desc" />
       </div>
@@ -38,6 +42,7 @@ export default {
   },
   data() {
     return {
+      name: '',
       desc: '',
       req: '',
       amount: '',
@@ -55,6 +60,7 @@ export default {
     async submitForm() {
       try {
         const requestBody = {
+          name: this.name,
           description: this.desc,
           requirements: this.req,
           payment_amount: this.amount,

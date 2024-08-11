@@ -100,6 +100,21 @@ const routes = [
     path: '/campaign/goals',
     name: 'campaign-goals',
     component: () => import('../views/sponsor/CampaignGoals.vue')
+  },
+  {
+    path: '/admin/stats',
+    name: 'admin-stats',
+    component: () => import('../views/admin/AdminStats.vue')
+  },
+  {
+    path: '/sponsor/stats',
+    name: 'sponsor-stats',
+    component: () => import('../views/sponsor/SponsorStats.vue')
+  },
+  {
+    path: '/influencer/stats',
+    name: 'influencer-stats',
+    component: () => import('../views/influencer/InfluencerStats.vue')
   }
 ]
 
